@@ -1,0 +1,42 @@
+#+ Repository-level gitignore for the wedding-invitation project
+#+ Covers common OS, tooling, IDE files and caches across frontend and backend
+
+## Node modules and lock/temp files
+node_modules/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+
+## Environment files (may contain secrets)
+.env
+.env.*.local
+.env.local
+
+## Build outputs
+dist/
+build/
+out/
+
+## Vite / bundler caches
+.vite/
+.parcel-cache/
+.cache/
+
+## Coverage reports
+coverage/
+
+## Logs
+*.log
+logs/
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## IDE/editor
+.vscode/
+.idea/
+
+## Temporary files
+*~
+*.swp

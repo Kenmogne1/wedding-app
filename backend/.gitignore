@@ -1,0 +1,19 @@
+## Backend gitignore
+
+# Node modules and logs
+node_modules/
+logs/
+*.log
+
+# Environment
+.env
+.env.*.local
+
+# Build
+dist/
+build/
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
