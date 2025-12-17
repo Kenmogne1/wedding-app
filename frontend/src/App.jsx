@@ -516,7 +516,7 @@ const RSVPPage = ({ onNavigate, onGoBack, isAttending }) => {
               <label className="block text-sm text-gray-400 uppercase tracking-wider mb-2">Nombre de personnes *</label>
               <select value={formData.nombrePersonnes} onChange={(e) => setFormData({...formData, nombrePersonnes: parseInt(e.target.value)})}
                 className={`w-full rounded-xl px-4 py-3 appearance-none cursor-pointer transition-colors ${isAttending ? 'bg-white border border-gray-300 text-gray-900 focus:border-red-500' : 'bg-gray-800 border border-gray-700 text-white focus:border-red-500'}`}>
-                {[1,2,3,4,5].map(n => <option key={n} value={n} className="bg-white text-gray-900">{n} personne{n>1?'s':''}</option>)}
+                {[1,2,3].map(n => <option key={n} value={n} className="bg-white text-gray-900">{n} personne{n>1?'s':''}</option>)}
               </select>
             </div>
             )}
@@ -560,20 +560,53 @@ const AdminPage = ({ onNavigate, onGoBack }) => {
   const handleLogin = () => {
     if (password === 'wedding2025') {
       setAuthenticated(true);
-      // fetchGuests(); // Décommenter pour récupérer les invités réels depuis le backend
-      setGuests([]);
-      setStats({ total: 0, confirmed: 0, checked: 0 });
+      // Récupère les invités et stats depuis le backend
+      fetchGuests();
+      fetchStats();
     } else {
       alert('Mot de passe incorrect');
     }
   };
 
-  // Fonction placeholder
-  const fetchGuests = async () => { console.log("Fetching guests..."); };
+  // Récupère la liste des invités depuis le backend
+  const fetchGuests = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${CONFIG.apiUrl}/guests`);
+      if (!res.ok) throw new Error('Erreur récupération invités');
+      const data = await res.json();
+      setGuests(data);
+    } catch (error) {
+      console.error('Erreur fetchGuests:', error);
+      alert('Impossible de récupérer la liste des invités. Vérifiez que le backend est démarré.');
+    }
+    setLoading(false);
+  };
+
+  // Récupère les statistiques agrégées depuis le backend
+  const fetchStats = async () => {
+    try {
+      const res = await fetch(`${CONFIG.apiUrl}/stats`);
+      if (!res.ok) throw new Error('Erreur récupération stats');
+      const s = await res.json();
+      setStats({ total: s.total || 0, confirmed: s.confirmed || 0, checked: s.checkedIn || s.checked || 0 });
+    } catch (error) {
+      console.error('Erreur fetchStats:', error);
+    }
+  };
+
+  // Effectue le check-in côté backend puis met à jour l'UI
   const handleCheckIn = async (id) => {
-     console.log("Checkin id:", id);
-     // Mise à jour optimiste fictive
-     setGuests(guests.map(g => g._id === id ? {...g, checkedIn: true} : g));
+    try {
+      const res = await fetch(`${CONFIG.apiUrl}/guests/${id}/checkin`, { method: 'PUT' });
+      if (!res.ok) throw new Error('Erreur check-in');
+      const updated = await res.json();
+      setGuests(guests.map(g => g._id === id ? updated : g));
+      setStats(prev => ({ ...prev, checked: (prev.checked || 0) + 1 }));
+    } catch (error) {
+      console.error('Erreur handleCheckIn:', error);
+      alert('Impossible de valider l’entrée. Réessayez.');
+    }
   };
 
   const filteredGuests = guests.filter(g =>
