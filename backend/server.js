@@ -9,8 +9,17 @@ const app = express();
 
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://wedding-fabrice-ange.vercel.app/", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true 
+}));
 app.use(express.json());
+
+if (!process.env.MONGODB_URI) {
+  console.error('❌ MONGODB_URI manquant dans .env');
+  process.exit(1);
+}
 
 // Configuration MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/wedding', {
