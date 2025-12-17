@@ -9,10 +9,7 @@ const app = express();
 
 
 // Middleware
-app.use(cors({
-  origin: "https://wedding-fabrice-ange.vercel.app/", 
-  methods: ["GET", "POST", "PUT", "DELETE"],
-}));
+app.use(cors());
 app.use(express.json());
 
 if (!process.env.MONGODB_URI) {
