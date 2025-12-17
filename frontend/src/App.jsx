@@ -288,7 +288,7 @@ const HomePage = ({ onNavigate }) => {
        {/* Admin Button */}
        <button
         onClick={() => onNavigate('admin')}
-        className="fixed bottom-6 right-6 md:bottom-8 md:right-8 w-12 h-12 md:w-14 md:h-14 bg-gray-800 border border-gray-700 rounded-full hover:bg-gray-700 transition-all flex items-center justify-center shadow-2xl z-50"
+        className="fixed bottom-5 right-5 md:bottom-5 md:right-6 w-5 h-5 md:w-6 md:h-6 bg-gray-800 border border-gray-700 rounded-full hover:bg-gray-700 transition-all flex items-center justify-center shadow-2xl z-50"
       >
         <Lock className="w-2 h-2 md:w-3 md:h-3 text-gray-400" />
       </button>
