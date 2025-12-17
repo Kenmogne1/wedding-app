@@ -9,7 +9,7 @@ const CONFIG = {
   // Date, heure et lieu mis à jour selon la demande
   weddingDate: "2026-04-04T20:00:00",
   venue: "Yaoundé, Quartier Manguier",
-  apiUrl: "http://localhost:5000/api"
+  apiUrl: import.meta.env.VITE_API_URL || "http://localhost:5000/api"
 };
 
 // --- COMPOSANT DE FOND ANIMÉ ---
