@@ -46,7 +46,7 @@ const FlowerImage = ({ className = '', alt = 'Fleur décorative' }) => {
           alt={alt}
           className={imgClass}
           onLoad={() => setLoaded(true)}
-          onError={() => setError(true)}
+          setError={() => setError(true)}
           style={{ objectFit: 'contain' }}
         />
       )}
@@ -64,7 +64,6 @@ const FlowerImage = ({ className = '', alt = 'Fleur décorative' }) => {
   );
 };
 
-// --- NOUVEAU : Dessins de fleurs pour la carte d'invitation ---
 const MagnoliaLeft = ({ className }) => (
   <svg viewBox="0 0 200 400" className={className} xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="1.5">
     <path d="M20,380 Q40,300 30,200 Q20,100 80,50 M80,50 Q120,20 160,60 M80,50 Q40,40 20,80 M30,200 Q80,180 120,220 M30,200 Q-10,180 10,140 M120,220 Q160,200 180,240 M120,220 Q100,260 140,280" opacity="0.6" />
@@ -88,7 +87,6 @@ const HomePage = ({ onNavigate }) => {
   useEffect(() => {
     const calculateTime = () => {
       const now = new Date();
-      // Le compte à rebours vise la DATE LIMITE (20 Mars)
       const deadlineDate = new Date(CONFIG.rsvpDeadline);
       const diff = deadlineDate - now;
 
@@ -116,7 +114,7 @@ const HomePage = ({ onNavigate }) => {
   }, []);
 
   return (
-    <div className="min-h-screen overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden relative">
       <FloatingHearts />
       
       {/* Hero Section */}
@@ -124,6 +122,22 @@ const HomePage = ({ onNavigate }) => {
         className="relative min-h-screen flex items-center justify-center px-4 py-12 reveal-on-scroll reveal-scale bg-stone-900"
         style={{ backgroundImage: "url('/picture.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center center', backgroundRepeat: 'no-repeat' }}
       >
+        {/* BOUTONS DE RACCOURCIS OPTIMISÉS (RESPONSIVE) */}
+        <div className="absolute top-4 right-3 sm:top-6 sm:right-6 z-20 flex gap-2 sm:gap-4">
+          <button
+            onClick={() => document.getElementById('notre-histoire')?.scrollIntoView({ behavior: 'smooth' })}
+            className="px-2.5 py-1.5 sm:px-4 sm:py-3 bg-[#E2725B] text-[#064E3B] font-bold text-[8px] sm:text-[10px] md:text-xs rounded-xl sm:rounded-2xl shadow-lg hover:scale-105 transition-transform border border-[#064E3B]/10 uppercase tracking-wider whitespace-nowrap"
+          >
+            Notre Histoire
+          </button>
+          <button
+            onClick={() => onNavigate('rsvp-oui')}
+            className="px-2.5 py-1.5 sm:px-4 sm:py-3 bg-[#E2725B] text-[#064E3B] font-bold text-[8px] sm:text-[10px] md:text-xs rounded-xl sm:rounded-2xl shadow-lg hover:scale-105 transition-transform border border-[#064E3B]/10 uppercase tracking-wider whitespace-nowrap"
+          >
+            Présence
+          </button>
+        </div>
+
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="absolute inset-0 bg-gradient-radial from-red-900/20 via-transparent to-transparent mix-blend-overlay"></div>
         <div className="relative z-10 text-center w-full max-w-5xl mx-auto" style={{transform: `translateY(${scrollY * 0.3}px)`}}>
@@ -153,9 +167,8 @@ const HomePage = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* --- NOUVEAU BLOC : MESSAGE D'INVITATION (Carte blanche) --- */}
+      {/* Message d'invitation */}
       <section className="relative w-full bg-[#fafaf9] py-16 md:py-24 px-4 overflow-hidden">
-        {/* Fleurs en arrière-plan sur les côtés */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-24 md:w-48 text-pink-300/80 pointer-events-none">
            <MagnoliaLeft className="w-full h-auto" />
         </div>
@@ -163,14 +176,11 @@ const HomePage = ({ onNavigate }) => {
            <MagnoliaRight className="w-full h-auto" />
         </div>
 
-        {/* Carte Centrale */}
         <div className="relative z-10 max-w-4xl mx-auto bg-white border border-gray-100 rounded-3xl p-8 md:p-16 shadow-xl text-center card-animate reveal-on-scroll">
-          {/* Titre style manuscrit */}
           <h2 className="text-5xl md:text-7xl mb-8 text-slate-600 font-serif italic" style={{ fontFamily: 'cursive, serif' }}>
             Vous êtes invité!
           </h2>
           
-          {/* Texte du corps */}
           <div className="text-slate-600 leading-relaxed text-sm md:text-lg space-y-4 font-sans max-w-2xl mx-auto">
             <p>
               Nous voulons passer le jour le plus important de notre vie avec les personnes qui comptent le plus pour nous. C’est pourquoi nous vous invitons cordialement à notre mariage.
@@ -181,7 +191,6 @@ const HomePage = ({ onNavigate }) => {
           </div>
         </div>
       </section>
-      {/* ------------------------------------------------------------- */}
 
       {/* Countdown Section */}
       <section className="py-16 md:py-24 px-4 relative reveal-on-scroll">
@@ -249,7 +258,7 @@ const HomePage = ({ onNavigate }) => {
       </section>
 
       {/* Story Section */}
-      <section className="py-16 md:py-24 px-4 relative reveal-on-scroll">
+      <section id="notre-histoire" className="py-16 md:py-24 px-4 relative reveal-on-scroll scroll-mt-24">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-center mb-16 md:mb-20 px-4">
             <FlowerImage className="w-12 h-12 md:w-28 md:h-28 mx-4 md:mx-8 opacity-95" />
@@ -286,7 +295,6 @@ const HomePage = ({ onNavigate }) => {
             </p>
           </div>
 
-          {/* LOGIQUE DE BLOCAGE */}
           {isDeadlinePassed ? (
             <div className="bg-red-50 border border-red-200 rounded-3xl p-8 md:p-12 text-center max-w-2xl mx-auto shadow-lg reveal-on-scroll card-animate">
               <div className="flex justify-center mb-6">
