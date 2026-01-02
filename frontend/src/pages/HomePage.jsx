@@ -3,9 +3,9 @@ import { Heart, Calendar, MapPin, Clock, Lock, AlertCircle, X, ArrowUpRight } fr
 
 // --- CONFIGURATION ---
 const CONFIG = {
-  coupleNames: "Fabrice\u00A0&\u00A0Caïus-ange",
+  coupleNames: "Fabrice\u00A0&\u00A0Caïus",
   groomName: "Fabrice",
-  brideName: "Caïus-ange",
+  brideName: "Caïus",
   weddingDate: "2026-04-04T20:00:00",
   rsvpDeadline: "2026-03-20T20:00:00",
   venue: "Yaoundé, Quartier Manguier",
