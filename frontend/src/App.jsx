@@ -84,7 +84,6 @@ export default function WeddingApp() {
   }, [currentPage, restoreScrollY]);
 
   return (
-    // CHANGEMENT ICI : Fond beige clair (stone-50) et texte gris foncé (stone-800)
     <div className="min-h-screen font-sans bg-stone-50 text-stone-800 selection:bg-red-200 selection:text-red-900">
       <style>{`
         .reveal-on-scroll { opacity: 0; transform: translateY(20px); transition: opacity 600ms ease, transform 600ms ease; }
@@ -92,7 +91,6 @@ export default function WeddingApp() {
         .reveal-scale { transform: scale(.98); transition: transform 600ms ease; }
         .reveal-scale.is-visible { transform: scale(1); }
         
-        /* Ombres plus douces pour le thème clair */
         .card-animate { transform: translateY(6px) scale(0.995); transition: transform 350ms cubic-bezier(.2,.9,.2,1), box-shadow 300ms ease, opacity 450ms ease; }
         .card-animate.is-visible { transform: translateY(0) scale(1); opacity: 1; }
         .card-animate:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 20px 40px -5px rgba(28, 25, 23, 0.1); }
@@ -109,6 +107,10 @@ export default function WeddingApp() {
         .shimmer::after { content: ''; position: absolute; left: -120%; top: 0; width: 60%; height: 100%; background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.4), rgba(255,255,255,0)); transform: skewX(-12deg); animation: shimmer 2.2s linear infinite; }
         @keyframes shimmer { to { left: 120%; } }
         .animate-float { animation: float 18s linear infinite; }
+
+        /* Animation pour le message de bienvenue */
+        @keyframes bounce-subtle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .animate-bounce-subtle { animation: bounce-subtle 3s ease-in-out infinite; }
       `}</style>
       
       {currentPage === 'home' && <HomePage onNavigate={navigate} />}

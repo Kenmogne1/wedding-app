@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Calendar, MapPin, Clock, Lock, AlertCircle } from 'lucide-react';
+import { Heart, Calendar, MapPin, Clock, Lock, AlertCircle, X, ArrowUpRight } from 'lucide-react';
 
 // --- CONFIGURATION ---
 const CONFIG = {
-  coupleNames: "Fabrice\u00A0&\u00A0Caïus",
+  coupleNames: "Fabrice\u00A0&\u00A0Caïus-ange",
   groomName: "Fabrice",
-  brideName: "Caïus",
+  brideName: "Caïus-ange",
   weddingDate: "2026-04-04T20:00:00",
   rsvpDeadline: "2026-03-20T20:00:00",
   venue: "Yaoundé, Quartier Manguier",
@@ -46,7 +46,7 @@ const FlowerImage = ({ className = '', alt = 'Fleur décorative' }) => {
           alt={alt}
           className={imgClass}
           onLoad={() => setLoaded(true)}
-          setError={() => setError(true)}
+          onError={() => setError(true)}
           style={{ objectFit: 'contain' }}
         />
       )}
@@ -78,11 +78,57 @@ const MagnoliaRight = ({ className }) => (
   </svg>
 );
 
+// --- COMPOSANT GUIDE DE BIENVENUE (ONBOARDING) ---
+const WelcomeGuide = ({ onClose }) => {
+  return (
+    <div className="fixed inset-0 z-[100] flex items-start justify-center sm:justify-end p-4 sm:p-10 bg-black/20 backdrop-blur-sm transition-all duration-500">
+      <div className="relative mt-20 sm:mt-16 bg-white rounded-3xl p-6 shadow-2xl max-w-sm border-2 border-[#E2725B] animate-bounce-subtle">
+        <div className="absolute -top-4 right-10 w-8 h-8 bg-white border-t-2 border-l-2 border-[#E2725B] rotate-45"></div>
+        <button onClick={onClose} className="absolute top-3 right-3 text-stone-400 hover:text-[#E2725B] transition-colors">
+          <X size={20} />
+        </button>
+        <div className="flex items-start gap-4">
+          <div className="bg-orange-50 p-3 rounded-full flex-shrink-0">
+             <ArrowUpRight className="text-[#E2725B] animate-pulse" size={24} />
+          </div>
+          <div>
+            <h4 className="font-serif text-[#064E3B] font-bold text-lg mb-2">Bienvenue !</h4>
+            <p className="text-stone-600 text-sm leading-relaxed">
+              Ravi d'interagir avec nous sur le site, cliquer sur ce bouton <span className="text-[#E2725B] font-bold">présence</span> pour directement accéder au formulaire pour confirmer votre présence au mariage de <span className="italic font-medium text-[#064E3B]">Fabrice & Caïus-ange</span>.
+            </p>
+            <button 
+              onClick={onClose}
+              className="mt-4 w-full py-2 bg-[#E2725B] text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#d6614a] transition-colors shadow-md"
+            >
+              C'est compris !
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- COMPOSANT HOMEPAGE ---
 const HomePage = ({ onNavigate }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [scrollY, setScrollY] = useState(0);
   const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
+
+  useEffect(() => {
+    // Vérifier si c'est la première visite pour afficher le guide
+    const hasSeenGuide = localStorage.getItem('wedding_guide_seen');
+    if (!hasSeenGuide) {
+      const timer = setTimeout(() => setShowGuide(true), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const closeGuide = () => {
+    setShowGuide(false);
+    localStorage.setItem('wedding_guide_seen', 'true');
+  };
 
   useEffect(() => {
     const calculateTime = () => {
@@ -117,12 +163,15 @@ const HomePage = ({ onNavigate }) => {
     <div className="min-h-screen overflow-x-hidden relative">
       <FloatingHearts />
       
+      {/* Guide Onboarding */}
+      {showGuide && <WelcomeGuide onClose={closeGuide} />}
+
       {/* Hero Section */}
       <section
         className="relative min-h-screen flex items-center justify-center px-4 py-12 reveal-on-scroll reveal-scale bg-stone-900"
         style={{ backgroundImage: "url('/picture.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center center', backgroundRepeat: 'no-repeat' }}
       >
-        {/* BOUTONS DE RACCOURCIS OPTIMISÉS (RESPONSIVE) */}
+        {/* BOUTONS DE RACCOURCIS (RESPONSIVE) */}
         <div className="absolute top-4 right-3 sm:top-6 sm:right-6 z-20 flex gap-2 sm:gap-4">
           <button
             onClick={() => document.getElementById('notre-histoire')?.scrollIntoView({ behavior: 'smooth' })}
@@ -131,7 +180,10 @@ const HomePage = ({ onNavigate }) => {
             Notre Histoire
           </button>
           <button
-            onClick={() => onNavigate('rsvp-oui')}
+            onClick={() => {
+              if (showGuide) closeGuide();
+              onNavigate('rsvp-oui');
+            }}
             className="px-2.5 py-1.5 sm:px-4 sm:py-3 bg-[#E2725B] text-[#064E3B] font-bold text-[8px] sm:text-[10px] md:text-xs rounded-xl sm:rounded-2xl shadow-lg hover:scale-105 transition-transform border border-[#064E3B]/10 uppercase tracking-wider whitespace-nowrap"
           >
             Présence
@@ -257,7 +309,7 @@ const HomePage = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Story Section */}
+      {/* Notre Histoire */}
       <section id="notre-histoire" className="py-16 md:py-24 px-4 relative reveal-on-scroll scroll-mt-24">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-center mb-16 md:mb-20 px-4">
