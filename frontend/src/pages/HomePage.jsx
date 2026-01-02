@@ -46,7 +46,7 @@ const FlowerImage = ({ className = '', alt = 'Fleur décorative' }) => {
           alt={alt}
           className={imgClass}
           onLoad={() => setLoaded(true)}
-          onError={() => setError(true)}
+          setError={() => setError(true)}
           style={{ objectFit: 'contain' }}
         />
       )}
@@ -78,7 +78,7 @@ const MagnoliaRight = ({ className }) => (
   </svg>
 );
 
-// --- COMPOSANT GUIDE DE BIENVENUE (ONBOARDING) ---
+// --- COMPOSANT GUIDE DE BIENVENUE ---
 const WelcomeGuide = ({ onClose }) => {
   return (
     <div className="fixed inset-0 z-[100] flex items-start justify-center sm:justify-end p-4 sm:p-10 bg-black/20 backdrop-blur-sm transition-all duration-500">
@@ -117,18 +117,20 @@ const HomePage = ({ onNavigate }) => {
   const [showGuide, setShowGuide] = useState(false);
 
   useEffect(() => {
-    // Vérifier si c'est la première visite pour afficher le guide
-    const hasSeenGuide = localStorage.getItem('wedding_guide_seen');
-    if (!hasSeenGuide) {
-      const timer = setTimeout(() => setShowGuide(true), 1500);
+    // Logique pour n'afficher que 2 fois maximum
+    const viewCount = parseInt(localStorage.getItem('wedding_guide_count') || '0');
+    
+    if (viewCount < 2) {
+      const timer = setTimeout(() => {
+        setShowGuide(true);
+        // On incrémente le compteur dès que le guide s'affiche
+        localStorage.setItem('wedding_guide_count', (viewCount + 1).toString());
+      }, 2500); // 2.5 secondes
       return () => clearTimeout(timer);
     }
   }, []);
 
-  const closeGuide = () => {
-    setShowGuide(false);
-    localStorage.setItem('wedding_guide_seen', 'true');
-  };
+  const closeGuide = () => setShowGuide(false);
 
   useEffect(() => {
     const calculateTime = () => {
@@ -163,7 +165,6 @@ const HomePage = ({ onNavigate }) => {
     <div className="min-h-screen overflow-x-hidden relative">
       <FloatingHearts />
       
-      {/* Guide Onboarding */}
       {showGuide && <WelcomeGuide onClose={closeGuide} />}
 
       {/* Hero Section */}
@@ -171,7 +172,6 @@ const HomePage = ({ onNavigate }) => {
         className="relative min-h-screen flex items-center justify-center px-4 py-12 reveal-on-scroll reveal-scale bg-stone-900"
         style={{ backgroundImage: "url('/picture.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center center', backgroundRepeat: 'no-repeat' }}
       >
-        {/* BOUTONS DE RACCOURCIS (RESPONSIVE) */}
         <div className="absolute top-4 right-3 sm:top-6 sm:right-6 z-20 flex gap-2 sm:gap-4">
           <button
             onClick={() => document.getElementById('notre-histoire')?.scrollIntoView({ behavior: 'smooth' })}
@@ -181,7 +181,7 @@ const HomePage = ({ onNavigate }) => {
           </button>
           <button
             onClick={() => {
-              if (showGuide) closeGuide();
+              closeGuide();
               onNavigate('rsvp-oui');
             }}
             className="px-2.5 py-1.5 sm:px-4 sm:py-3 bg-[#E2725B] text-[#064E3B] font-bold text-[8px] sm:text-[10px] md:text-xs rounded-xl sm:rounded-2xl shadow-lg hover:scale-105 transition-transform border border-[#064E3B]/10 uppercase tracking-wider whitespace-nowrap"
@@ -309,7 +309,7 @@ const HomePage = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Notre Histoire */}
+      {/* Story Section */}
       <section id="notre-histoire" className="py-16 md:py-24 px-4 relative reveal-on-scroll scroll-mt-24">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-center mb-16 md:mb-20 px-4">
