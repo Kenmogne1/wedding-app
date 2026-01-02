@@ -6,9 +6,7 @@ const CONFIG = {
   coupleNames: "Fabrice\u00A0&\u00A0Caïus",
   groomName: "Fabrice",
   brideName: "Caïus",
-  // DATE DE L'ÉVÉNEMENT (4 Avril)
   weddingDate: "2026-04-04T20:00:00",
-  // DATE LIMITE DE CONFIRMATION (20 Mars)
   rsvpDeadline: "2026-03-20T20:00:00",
   venue: "Yaoundé, Quartier Manguier",
   apiUrl: import.meta.env.VITE_API_URL || "http://localhost:5000/api"
@@ -66,6 +64,21 @@ const FlowerImage = ({ className = '', alt = 'Fleur décorative' }) => {
   );
 };
 
+// --- NOUVEAU : Dessins de fleurs pour la carte d'invitation ---
+const MagnoliaLeft = ({ className }) => (
+  <svg viewBox="0 0 200 400" className={className} xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M20,380 Q40,300 30,200 Q20,100 80,50 M80,50 Q120,20 160,60 M80,50 Q40,40 20,80 M30,200 Q80,180 120,220 M30,200 Q-10,180 10,140 M120,220 Q160,200 180,240 M120,220 Q100,260 140,280" opacity="0.6" />
+    <path d="M30,300 Q60,280 50,250 M50,250 Q80,230 100,260 M50,250 Q30,220 60,200" opacity="0.6" />
+  </svg>
+);
+
+const MagnoliaRight = ({ className }) => (
+  <svg viewBox="0 0 200 400" className={className} xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M180,380 Q160,300 170,200 Q180,100 120,50 M120,50 Q80,20 40,60 M120,50 Q160,40 180,80 M170,200 Q120,180 80,220 M170,200 Q210,180 190,140 M80,220 Q40,200 20,240 M80,220 Q100,260 60,280" opacity="0.6" />
+    <path d="M170,300 Q140,280 150,250 M150,250 Q120,230 100,260 M150,250 Q170,220 140,200" opacity="0.6" />
+  </svg>
+);
+
 // --- COMPOSANT HOMEPAGE ---
 const HomePage = ({ onNavigate }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -118,20 +131,16 @@ const HomePage = ({ onNavigate }) => {
             <Heart className="w-16 h-16 md:w-24 md:h-24 text-red-500 animate-pulse-slow mx-auto" fill="currentColor" strokeWidth={0.5} />
           </div>
           
-          {/* CHANGEMENT ICI : Retour au style dégradé élégant (blanc/crème) */}
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-8xl lg:text-9xl mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-100 to-stone-200 leading-tight px-4 text-center drop-shadow-2xl">
+          <h1 className="font-serif italic text-4xl sm:text-6xl md:text-7xl lg:text-9xl mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-pink-300 to-red-400 leading-tight px-4 text-center drop-shadow-2xl">
             {CONFIG.coupleNames}
           </h1>
           
-          {/* CHANGEMENT ICI : Couleur Marron/Doré (amber-200) */}
           <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-amber-200 font-medium italic mb-8 tracking-wide px-4 drop-shadow-lg">
             Nous unissons nos vies
           </p>
 
-          {/* Ligne de séparation un peu plus dorée */}
           <div className="w-24 md:w-32 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent mx-auto mb-8 md:mb-12 opacity-80"></div>
 
-          {/* CHANGEMENT ICI : Couleur Marron/Doré (amber-200) */}
           <p className="text-sm md:text-lg text-amber-200 font-medium italic tracking-widest uppercase drop-shadow-lg">
             {new Date(CONFIG.weddingDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
           </p>
@@ -143,6 +152,36 @@ const HomePage = ({ onNavigate }) => {
           </svg>
         </div>
       </section>
+
+      {/* --- NOUVEAU BLOC : MESSAGE D'INVITATION (Carte blanche) --- */}
+      <section className="relative w-full bg-[#fafaf9] py-16 md:py-24 px-4 overflow-hidden">
+        {/* Fleurs en arrière-plan sur les côtés */}
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-24 md:w-48 text-pink-300/80 pointer-events-none">
+           <MagnoliaLeft className="w-full h-auto" />
+        </div>
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-24 md:w-48 text-pink-300/80 pointer-events-none">
+           <MagnoliaRight className="w-full h-auto" />
+        </div>
+
+        {/* Carte Centrale */}
+        <div className="relative z-10 max-w-4xl mx-auto bg-white border border-gray-100 rounded-3xl p-8 md:p-16 shadow-xl text-center card-animate reveal-on-scroll">
+          {/* Titre style manuscrit */}
+          <h2 className="text-5xl md:text-7xl mb-8 text-slate-600 font-serif italic" style={{ fontFamily: 'cursive, serif' }}>
+            Vous êtes invité!
+          </h2>
+          
+          {/* Texte du corps */}
+          <div className="text-slate-600 leading-relaxed text-sm md:text-lg space-y-4 font-sans max-w-2xl mx-auto">
+            <p>
+              Nous voulons passer le jour le plus important de notre vie avec les personnes qui comptent le plus pour nous. C’est pourquoi nous vous invitons cordialement à notre mariage.
+            </p>
+            <p className="font-medium pt-2 text-slate-800">
+              Nous nous réjouissons de passer une journée inoubliable avec vous !
+            </p>
+          </div>
+        </div>
+      </section>
+      {/* ------------------------------------------------------------- */}
 
       {/* Countdown Section */}
       <section className="py-16 md:py-24 px-4 relative reveal-on-scroll">
@@ -161,7 +200,6 @@ const HomePage = ({ onNavigate }) => {
                 <div className="absolute inset-0 bg-gradient-to-br from-red-200 to-pink-200 rounded-xl md:rounded-2xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500"></div>
                 <div className="relative bg-white border border-stone-200 rounded-xl md:rounded-2xl p-4 md:p-8 text-center hover:border-red-200 transition-all duration-300 shadow-sm hover:shadow-md">
                   
-                  {/* Chiffres en Terracotta #E35336 (inchangé) */}
                   <div className="text-3xl sm:text-4xl md:text-6xl font-bold text-[#E35336] mb-1 md:mb-2">
                     {String(item.value).padStart(2, '0')}
                   </div>
@@ -184,14 +222,12 @@ const HomePage = ({ onNavigate }) => {
                 {
                     Icon: Calendar, 
                     label: 'Date', 
-                    // Date du mariage
                     value: new Date(CONFIG.weddingDate).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), 
                     color: 'text-red-500'
                 },
                 {
                     Icon: Clock, 
                     label: 'Heure', 
-                    // Heure du mariage
                     value: new Date(CONFIG.weddingDate).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }), 
                     color: 'text-pink-500'
                 },
@@ -245,14 +281,12 @@ const HomePage = ({ onNavigate }) => {
 
             <h2 className="text-5xl md:text-6xl font-bold text-red-500 mb-6 md:mb-8">RSVP</h2>
             <h3 className="text-xl md:text-2xl text-stone-600 mb-4 uppercase tracking-wider">Confirmation de Présence</h3>
-            
-            {/* Affiche la date limite */}
             <p className="text-stone-400 text-sm md:text-base">
                  Date limite : {new Date(CONFIG.rsvpDeadline).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
             </p>
           </div>
 
-          {/* LOGIQUE DE BLOCAGE BASÉE SUR LA DEADLINE */}
+          {/* LOGIQUE DE BLOCAGE */}
           {isDeadlinePassed ? (
             <div className="bg-red-50 border border-red-200 rounded-3xl p-8 md:p-12 text-center max-w-2xl mx-auto shadow-lg reveal-on-scroll card-animate">
               <div className="flex justify-center mb-6">
@@ -265,7 +299,6 @@ const HomePage = ({ onNavigate }) => {
             </div>
           ) : (
             <div className="flex flex-row gap-4 md:gap-6 max-w-lg mx-auto justify-center items-stretch">
-              {/* Carte OUI */}
               <button
                 onClick={() => onNavigate('rsvp-oui')}
                 className="flex-1 group relative w-full"
@@ -293,7 +326,7 @@ const HomePage = ({ onNavigate }) => {
         </p>
       </section>
 
-       {/* Admin Button - Lien pour rechargement complet */}
+       {/* Admin Button */}
        <a
         href="?view=admin"
         className="fixed bottom-5 right-5 md:bottom-5 md:right-6 w-5 h-5 md:w-6 md:h-6 bg-white border border-stone-200 rounded-full hover:bg-stone-100 transition-all flex items-center justify-center shadow-xl z-50 cursor-pointer text-stone-400"
