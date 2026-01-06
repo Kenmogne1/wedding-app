@@ -169,8 +169,8 @@ const HomePage = ({ onNavigate }) => {
 
       {/* Hero Section */}
       <section
-        className="relative min-h-screen flex items-center justify-center px-4 py-12 reveal-on-scroll reveal-scale bg-stone-900"
-        style={{ backgroundImage: "url('/picture.jpeg')", backgroundSize: 'cover', backgroundPosition: 'center center', backgroundRepeat: 'no-repeat' }}
+        className="relative min-h-screen flex items-center justify-center px-2 py-10 reveal-on-scroll reveal-scale bg-stone-900"
+        style={{ backgroundImage: "url('/photo.jpeg')", backgroundSize: 'contain', backgroundPosition: 'center center', backgroundRepeat: 'no-repeat' }}
       >
         <div className="absolute top-4 right-3 sm:top-6 sm:right-6 z-20 flex gap-2 sm:gap-4">
           <button
@@ -194,7 +194,6 @@ const HomePage = ({ onNavigate }) => {
         <div className="absolute inset-0 bg-gradient-radial from-red-900/20 via-transparent to-transparent mix-blend-overlay"></div>
         <div className="relative z-10 text-center w-full max-w-5xl mx-auto" style={{transform: `translateY(${scrollY * 0.3}px)`}}>
           <div className="mb-6 md:mb-8 inline-block">
-            <Heart className="w-16 h-16 md:w-24 md:h-24 text-red-500 animate-pulse-slow mx-auto" fill="currentColor" strokeWidth={0.5} />
           </div>
           
           <h1 className="font-serif italic text-4xl sm:text-6xl md:text-7xl lg:text-9xl mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-pink-300 to-red-400 leading-tight px-4 text-center drop-shadow-2xl">
@@ -318,7 +317,15 @@ const HomePage = ({ onNavigate }) => {
             <FlowerImage className="w-12 h-12 md:w-28 md:h-28 mx-4 md:mx-8 opacity-95" />
           </div>
            <div className="bg-white rounded-2xl md:rounded-3xl p-8 md:p-12 text-center shadow-xl card-animate reveal-on-scroll border border-stone-100">
-              <Heart className="w-12 h-12 md:w-16 md:h-16 text-red-500 mx-auto mb-6 md:mb-8" fill="currentColor" />
+              <div className="w-30 h-30 md:w-28 md:h-28 mx-auto mb-6 md:mb-8 rounded-full p-1 bg-green-800 shadow-lg">
+                 <div className="w-full h-full rounded-full overflow-hidden border-2 border-white">
+                    <img 
+                       src="/photo1.jpeg" 
+                       alt="Notre Histoire" 
+                       className="w-full h-full object-cover"
+                    />
+                 </div>
+              </div>
               <p className="text-stone-700 leading-relaxed text-base md:text-lg max-w-3xl mx-auto">
                 Mars 2020, une exposition d'art à Yaoundé. Un regard, une conversation, une connexion instantanée. Six années plus tard, nous sommes prêts à écrire le plus beau chapitre de notre vie ensemble.
               </p>
