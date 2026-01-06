@@ -109,6 +109,8 @@ const WelcomeGuide = ({ onClose }) => {
   );
 };
 
+let guideDejaAffiche = false;
+
 // --- COMPOSANT HOMEPAGE ---
 const HomePage = ({ onNavigate }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -117,15 +119,12 @@ const HomePage = ({ onNavigate }) => {
   const [showGuide, setShowGuide] = useState(false);
 
   useEffect(() => {
-    // Logique pour n'afficher que 2 fois maximum
-    const viewCount = parseInt(localStorage.getItem('wedding_guide_count') || '0');
-    
-    if (viewCount < 2) {
+
+    if (!guideDejaAffiche) {
       const timer = setTimeout(() => {
         setShowGuide(true);
-        // On incrémente le compteur dès que le guide s'affiche
-        localStorage.setItem('wedding_guide_count', (viewCount + 1).toString());
-      }, 2500); // 2.5 secondes
+        guideDejaAffiche = true;
+      }, 3000); // 3 secondes
       return () => clearTimeout(timer);
     }
   }, []);
@@ -394,13 +393,14 @@ const HomePage = ({ onNavigate }) => {
       </section>
 
        {/* Admin Button */}
-       <a
-        href="?view=admin"
+       <button
+        //href="?view=admin"
+        onClick={() => onNavigate('admin')}
         className="fixed bottom-5 right-5 md:bottom-5 md:right-6 w-5 h-5 md:w-6 md:h-6 bg-white border border-stone-200 rounded-full hover:bg-stone-100 transition-all flex items-center justify-center shadow-xl z-50 cursor-pointer text-stone-400"
         title="Accès Contrôleur"
       >
         <Lock className="w-2 h-2 md:w-3 md:h-3" />
-      </a>
+      </button>
     </div>
   );
 };
