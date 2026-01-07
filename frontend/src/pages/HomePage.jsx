@@ -234,7 +234,7 @@ const HomePage = ({ onNavigate }) => {
              // -top-6 -left-6 : Fait ressortir l'image vers le haut et la gauche (pour chevaucher la bordure)
              // w-24 md:w-32 : Taille de la fleur
              // mix-blend-multiply : Rend le fond blanc de l'image transparent pour un effet propre
-             className="absolute -top-6 -left-6 md:-top-10 md:-left-10 w-24 md:w-40 h-auto z-20 pointer-events-none mix-blend-multiply brightness-110 contrast-125"
+             className="absolute -top-6 -left-6 md:-top-10 md:-left-10 w-19 md:w-40 h-auto z-20 pointer-events-none mix-blend-multiply brightness-110 contrast-125"
           />
           <h2 className="text-5xl md:text-7xl mb-8 text-slate-600 font-serif italic" style={{ fontFamily: 'cursive, serif' }}>
             Vous êtes invité!
