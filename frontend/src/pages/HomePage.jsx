@@ -3,7 +3,7 @@ import { Heart, Calendar, MapPin, Clock, Lock, AlertCircle, X, ArrowUpRight } fr
 
 // --- CONFIGURATION ---
 const CONFIG = {
-  coupleNames: "Fabrice\u00A0&\u00A0Caïus",
+  coupleNames: "Caïus\u00A0&\u00A0Fabrice",  // Caïus-ange & Fabrice
   groomName: "Fabrice",
   brideName: "Caïus",
   weddingDate: "2026-04-04T20:00:00",
@@ -94,7 +94,7 @@ const WelcomeGuide = ({ onClose }) => {
           <div>
             <h4 className="font-serif text-[#064E3B] font-bold text-lg mb-2">Bienvenue !</h4>
             <p className="text-stone-600 text-sm leading-relaxed">
-              Ravi d'interagir avec nous sur le site, cliquer sur ce bouton <span className="text-[#E2725B] font-bold">présence</span> pour directement accéder au formulaire pour confirmer votre présence au mariage de <span className="italic font-medium text-[#064E3B]">Fabrice & Caïus-ange</span>.
+              Ravi d'interagir avec nous sur le site, cliquer sur ce bouton <span className="text-[#E2725B] font-bold">présence</span> pour directement accéder au formulaire pour confirmer votre présence au mariage de <span className="italic font-medium text-[#064E3B]">Caïus-ange & Fabrice</span>.
             </p>
             <button 
               onClick={onClose}
@@ -227,6 +227,15 @@ const HomePage = ({ onNavigate }) => {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto bg-white border border-gray-100 rounded-3xl p-8 md:p-16 shadow-xl text-center card-animate reveal-on-scroll">
+
+          <img 
+             src="/flower.jpeg" 
+             alt="Décoration" 
+             // -top-6 -left-6 : Fait ressortir l'image vers le haut et la gauche (pour chevaucher la bordure)
+             // w-24 md:w-32 : Taille de la fleur
+             // mix-blend-multiply : Rend le fond blanc de l'image transparent pour un effet propre
+             className="absolute -top-6 -left-6 md:-top-10 md:-left-10 w-24 md:w-40 h-auto z-20 pointer-events-none mix-blend-multiply brightness-110 contrast-125"
+          />
           <h2 className="text-5xl md:text-7xl mb-8 text-slate-600 font-serif italic" style={{ fontFamily: 'cursive, serif' }}>
             Vous êtes invité!
           </h2>
