@@ -124,7 +124,7 @@ const HomePage = ({ onNavigate }) => {
       const timer = setTimeout(() => {
         setShowGuide(true);
         guideDejaAffiche = true;
-      }, 3000); // 3 secondes
+      }, 2200); // 2 secondes
       return () => clearTimeout(timer);
     }
   }, []);
