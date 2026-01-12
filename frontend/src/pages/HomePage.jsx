@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Calendar, MapPin, Clock, Lock, AlertCircle, X, ArrowUpRight } from 'lucide-react';
-
+import EventDetails from './EventDetails';
+import Son from './Son'; 
+import DressCode from './DressCode';
 // --- CONFIGURATION ---
 const CONFIG = {
   coupleNames: "Caïus\u00A0&\u00A0Fabrice",  // Caïus-ange & Fabrice
@@ -168,7 +170,7 @@ const HomePage = ({ onNavigate }) => {
 
       {/* Hero Section */}
       <section
-        className="relative min-h-screen flex items-center justify-center px-2 py-10 reveal-on-scroll reveal-scale bg-stone-900"
+        className="relative min-h-screen flex items-center justify-center px-2 py-10 reveal-on-scroll reveal-scale bg-white"
         style={{ backgroundImage: "url('/photo.jpeg')", backgroundSize: 'contain', backgroundPosition: 'center center', backgroundRepeat: 'no-repeat' }}
       >
         <div className="absolute top-4 right-3 sm:top-6 sm:right-6 z-20 flex gap-2 sm:gap-4">
@@ -188,7 +190,7 @@ const HomePage = ({ onNavigate }) => {
             Présence
           </button>
         </div>
-
+        
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="absolute inset-0 bg-gradient-radial from-red-900/20 via-transparent to-transparent mix-blend-overlay"></div>
         <div className="relative z-10 text-center w-full max-w-5xl mx-auto" style={{transform: `translateY(${scrollY * 0.3}px)`}}>
@@ -199,11 +201,11 @@ const HomePage = ({ onNavigate }) => {
             {CONFIG.coupleNames}
           </h1>
           
-          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-amber-200 font-medium italic mb-8 tracking-wide px-4 drop-shadow-lg">
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-amber-200 font-medium italic mb-8 tracking-wide px-4">
             Nous unissons nos vies
           </p>
 
-          <div className="w-24 md:w-32 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent mx-auto mb-8 md:mb-12 opacity-80"></div>
+          <div className="w-24 md:w-32 h-px bg-gradient-to-r from-transparent via-[#E2725B] to-transparent mx-auto mb-8 md:mb-12 opacity-80"></div>
 
           <p className="text-sm md:text-lg text-amber-200 font-medium italic tracking-widest uppercase drop-shadow-lg">
             {new Date(CONFIG.weddingDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
@@ -265,7 +267,7 @@ const HomePage = ({ onNavigate }) => {
               {label: 'Secondes', value: timeLeft.seconds}
             ].map((item, idx) => (
               <div key={idx} className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-200 to-pink-200 rounded-xl md:rounded-2xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-red-100 to-pink-200 rounded-xl md:rounded-2xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500"></div>
                 <div className="relative bg-white border border-stone-200 rounded-xl md:rounded-2xl p-4 md:p-8 text-center hover:border-red-200 transition-all duration-300 shadow-sm hover:shadow-md">
                   
                   <div className="text-3xl sm:text-4xl md:text-6xl font-bold text-[#E35336] mb-1 md:mb-2">
@@ -280,43 +282,7 @@ const HomePage = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Event Details */}
-      <section className="py-16 md:py-24 px-4 relative reveal-on-scroll">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white/60 backdrop-blur-xl border border-stone-200 rounded-2xl md:rounded-3xl p-6 md:p-12 shadow-xl">
-            <h2 className="text-3xl md:text-4xl font-serif text-center mb-8 md:mb-12 text-stone-800">Détails de l'événement</h2>
-            <div className="space-y-6 md:space-y-8">
-              {[
-                {
-                    Icon: Calendar, 
-                    label: 'Date', 
-                    value: new Date(CONFIG.weddingDate).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), 
-                    color: 'text-red-500'
-                },
-                {
-                    Icon: Clock, 
-                    label: 'Heure', 
-                    value: new Date(CONFIG.weddingDate).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }), 
-                    color: 'text-pink-500'
-                },
-                {Icon: MapPin, label: 'Lieu', value: CONFIG.venue, color: 'text-red-500'}
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center gap-4 md:gap-6 p-4 md:p-6 rounded-xl hover:bg-stone-50 transition-all group border border-transparent hover:border-stone-100">
-                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-red-50 flex items-center justify-center group-hover:scale-110 transition-transform flex-shrink-0">
-                    <item.Icon className={`w-6 h-6 md:w-8 md:h-8 ${item.color}`} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-xs md:text-sm text-stone-500 uppercase tracking-wider mb-1">{item.label}</div>
-                    <div className="text-base sm:text-lg md:text-xl text-stone-800 break-words first-letter:uppercase font-medium">{item.value}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Story Section */}
+    {/* Story Section */}
       <section id="notre-histoire" className="py-16 md:py-24 px-4 relative reveal-on-scroll scroll-mt-24">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-center mb-16 md:mb-20 px-4">
@@ -335,11 +301,19 @@ const HomePage = ({ onNavigate }) => {
                  </div>
               </div>
               <p className="text-stone-700 leading-relaxed text-base md:text-lg max-w-3xl mx-auto">
-                Mars 2020, une exposition d'art à Yaoundé. Un regard, une conversation, une connexion instantanée. Six années plus tard, nous sommes prêts à écrire le plus beau chapitre de notre vie ensemble.
+                Tout a commencé par des regards croisés au Cameroun, sur les bancs d'un centre de langue. Mais c'est le destin qui nous a véritablement réunis à des milliers de kilomètres de là, au détour d'un rayon de supermarché. 
+                <br /><br />
+                Ce hasard incroyable s'est transformé en une conversation passionnée à la sortie du magasin. D'une belle amitié née de ces retrouvailles inattendues, l'amour a fini par éclore au fil des rendez-vous, transformant une simple coïncidence en une évidence éternelle.
               </p>
             </div>
         </div>
       </section>
+       
+      <Son />
+      <div className="w-full h-35 md:h-40"></div>
+      <EventDetails />
+      
+      <DressCode />
 
       {/* RSVP Section */}
       <section className="py-16 md:py-24 px-4 relative reveal-on-scroll">
@@ -351,11 +325,7 @@ const HomePage = ({ onNavigate }) => {
               <p className="text-stone-500 text-sm md:text-lg max-w-3xl mx-auto mb-8 leading-relaxed">
                   Chaque détail compte pour nous, et votre présence est le cadeau le plus précieux. Veuillez confirmer votre participation avant le 20 mars 2026.
               </p>
-              <p className="text-xl md:text-4xl font-serif text-red-500 mb-12">
-                  Aidez-nous à planifier le jour parfait
-              </p>
 
-            <h2 className="text-5xl md:text-6xl font-bold text-red-500 mb-6 md:mb-8">RSVP</h2>
             <h3 className="text-xl md:text-2xl text-stone-600 mb-4 uppercase tracking-wider">Confirmation de Présence</h3>
             <p className="text-stone-400 text-sm md:text-base">
                  Date limite : {new Date(CONFIG.rsvpDeadline).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
