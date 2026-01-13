@@ -7,11 +7,11 @@ import Cadeaux from './Cadeaux';
 
 // --- CONFIGURATION ---
 const CONFIG = {
-  coupleNames: "Caïus\u00A0&\u00A0Fabrice",
+  coupleNames: "Caïus-Ange\u00A0et\u00A0Fabrice",
   groomName: "Fabrice",
   brideName: "Caïus",
-  weddingDate: "2026-04-04T20:00:00",
-  rsvpDeadline: "2026-03-20T20:00:00",
+  weddingDate: "2026-04-04T20:00:00+01:00",
+  rsvpDeadline: "2026-03-20T20:00:00+01:00",
   venue: "Yaoundé, Quartier Manguier",
   apiUrl: import.meta.env.VITE_API_URL || "http://localhost:5000/api"
 };
@@ -165,27 +165,47 @@ const HomePage = ({ onNavigate }) => {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-stone-50">
+      
+      {/* Styles globaux et animations ajoutés ici */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+        @keyframes heartbeat {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.15); } 
+          100% { transform: scale(1); }
+        }
+        .animate-image-pulse {
+          transform-origin: center;
+          transform-box: fill-box; 
+          animation: heartbeat 4s ease-in-out infinite;
+        }
+
+        /* Animation pour la photo Hero (Très lent) */
+        @keyframes hero-pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); } 
+          100% { transform: scale(1); }
+        }
+        .animate-hero-pulse {
+          animation: hero-pulse 8s ease-in-out infinite;
+        }
+      `}</style>
+
       <FloatingHearts />
       
       {showGuide && <WelcomeGuide onClose={closeGuide} />}
 
       {/* --- HEADER (Menu + Boutons) --- */}
-      {/* Modification : px-3 au lieu de px-4 pour réduire les marges externes et rapprocher du bord */}
       <nav className="bg-white border-b border-stone-100 px-3 py-3 sticky top-0 z-50 flex items-center justify-between shadow-sm">
         
-        {/* Menu Hamburger (Gauche) */}
         <div className="text-[#064E3B] pl-1">
           <AlignJustify size={24} />
         </div>
 
-        {/* Boutons (Droite) */}
-        {/* Modification : gap-2 au lieu de gap-3 pour rapprocher les boutons entre eux */}
         <div className="flex gap-2">
           <button
             onClick={() => document.getElementById('notre-histoire')?.scrollIntoView({ behavior: 'smooth' })}
-            // Modifications de taille :
-            // - px-2.5 py-1.5 (plus petit padding)
-            // - text-[9px] (texte plus petit pour mobile)
             className="px-2.5 py-1.5 bg-[#E2725B] text-white font-bold text-[9px] sm:text-[10px] md:text-xs rounded-lg shadow-md hover:bg-[#d1624c] transition-colors uppercase tracking-wider whitespace-nowrap"
           >
             Notre Histoire
@@ -195,7 +215,6 @@ const HomePage = ({ onNavigate }) => {
               closeGuide();
               onNavigate('rsvp-oui');
             }}
-            // Modifications identiques ici
             className="px-2.5 py-1.5 bg-[#E2725B] text-white font-bold text-[9px] sm:text-[10px] md:text-xs rounded-lg shadow-md hover:bg-[#d1624c] transition-colors uppercase tracking-wider whitespace-nowrap"
           >
             Présence
@@ -204,19 +223,25 @@ const HomePage = ({ onNavigate }) => {
       </nav>
 
       {/* --- HERO IMAGE SECTION --- */}
-      <div className="relative w-full bg-white">
+      {/* Ajout de overflow-hidden pour que l'image ne dépasse pas pendant le zoom */}
+      <div className="relative w-full bg-white overflow-hidden">
+        {/* Ajout de la classe animate-hero-pulse pour l'effet de battement lent */}
         <img 
           src="/photo.jpeg" 
-          alt="Couple Mariés" 
-          className="w-full h-auto block"
+          className="w-full h-auto block animate-hero-pulse"
         />
+        <div className="absolute inset-0 bg-black/35"></div>
 
         {/* SUPERPOSITION TEXTE */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end items-center pb-8 sm:pb-16 text-center">
-             <h1 className="font-serif italic text-4xl sm:text-6xl md:text-8xl mb-2 text-white leading-tight px-4 drop-shadow-lg">
+        {/* pb-24 sm:pb-40 : Remonte le texte plus haut */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end items-center pb-29 sm:pb-45 text-center">
+    
+             {/* Changement de police : font-['Great_Vibes'] */}
+             <h1 className="font-['Great_Vibes',_cursive] text-5xl sm:text-7xl md:text-9xl mb-2 text-white leading-tight px-4 drop-shadow-lg">
                 {CONFIG.coupleNames}
              </h1>
-             <p className="text-lg sm:text-2xl text-amber-100 font-medium italic tracking-wide px-4 drop-shadow-md">
+             
+             <p className="text-lg sm:text-2xl text-emerald-700 font-medium italic tracking-wide px-4 drop-shadow-md">
                 Nous unissons nos vies
              </p>
              <div className="w-16 h-px bg-amber-200/60 my-4 mx-auto"></div>
@@ -226,7 +251,6 @@ const HomePage = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Message d'invitation */}
       {/* Message d'invitation */}
       <section className="relative w-full bg-[#fafaf9] py-16 md:py-24 px-4 overflow-hidden">
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-24 md:w-48 text-pink-300/80 pointer-events-none">
@@ -239,21 +263,14 @@ const HomePage = ({ onNavigate }) => {
         <div className="relative z-10 max-w-4xl mx-auto bg-white border border-gray-100 rounded-3xl p-8 md:p-16 shadow-xl text-center card-animate reveal-on-scroll">
 
           {/* GROUPE DECORATION FLORALE (Coin Haut Gauche) */}
-          
-          {/* Fleur 2 (Orange) - En arrière plan, PLUS PETITE et plus proche du coin */}
           <img 
              src="/f2.png" 
-             alt="Décoration arrière" 
-             // Modifs : w-16 (mobile) / w-24 (PC) pour être plus petite
-             // left-8 / left-14 pour se coller à la fleur verte
              className="absolute -top-9 left-8 md:-top-12 md:left-14 w-16 md:w-24 h-auto z-10 pointer-events-none mix-blend-multiply brightness-110 contrast-125 transform rotate-12 opacity-80"
           />
 
-          {/* Fleur 1 (Vert) - Au premier plan, taille principale */}
           <img 
              src="/flower.jpeg" 
              alt="Décoration avant" 
-             // Modifs : -top-5 -left-5 pour bien mordre sur le coin
              className="absolute -top-5 -left-5 w-24 md:w-36 h-auto z-20 pointer-events-none mix-blend-multiply brightness-110 contrast-125 transform -rotate-6"
           />
 
@@ -310,15 +327,36 @@ const HomePage = ({ onNavigate }) => {
             <FlowerImage className="w-12 h-12 md:w-28 md:h-28 mx-4 md:mx-8 opacity-95" />
           </div>
            <div className="bg-white rounded-2xl md:rounded-3xl p-8 md:p-12 text-center shadow-xl card-animate reveal-on-scroll border border-stone-100">
-              <div className="w-30 h-30 md:w-28 md:h-28 mx-auto mb-6 md:mb-8 rounded-full p-1 bg-green-800 shadow-lg">
-                 <div className="w-full h-full rounded-full overflow-hidden border-2 border-white">
-                    <img 
-                       src="/photo1.jpeg" 
-                       alt="Notre Histoire" 
-                       className="w-full h-full object-cover"
-                    />
-                 </div>
-              </div>
+          
+          {/* Bloc Cœur */}
+          <div className="mx-auto mb-6 w-60 h-60 md:w-80 md:h-80">
+            <svg viewBox="0 0 24 24" className="w-full h-full drop-shadow-xl">
+              <defs>
+                <clipPath id="heartClip">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </clipPath>
+              </defs>
+
+              <path 
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" 
+                fill="#166534" 
+                stroke="white" 
+                strokeWidth="0.5" 
+              />
+
+              <image 
+                className="animate-image-pulse"
+                href="/photo1.jpeg" 
+                x="2" 
+                y="2" 
+                width="20" 
+                height="20" 
+                preserveAspectRatio="xMidYMid slice" 
+                clipPath="url(#heartClip)" 
+              />
+            </svg>
+          </div>
+
               <p className="text-stone-700 leading-relaxed text-base md:text-lg max-w-3xl mx-auto font-serif italic">
                 Tout a commencé par des regards croisés au Cameroun, sur les bancs d'un centre de langue. Mais c'est le destin qui nous a véritablement réunis à des milliers de kilomètres de là, au détour d'un rayon de supermarché. 
                 <br /><br />

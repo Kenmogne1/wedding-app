@@ -51,7 +51,7 @@ const Cadeaux = () => {
             {/* Texte Original Remis */}
             <div className="mb-10">
                 <p className="text-stone-600 text-lg md:text-xl font-serif italic leading-relaxed">
-                  "Nous savons à quel point vous souhaitez nous témoigner votre amour à travers vos cadeaux de mariage, mais pour défaut pratique (nous ne vivons pas au pays) nous préférons les cadeaux en espèces dans une enveloppe que vous nous remettrez pendant la remise des cadeaux officielle. Merci pour votre compréhension."
+                  "Nous savons à quel point vous souhaitez nous témoigner votre amour à travers vos cadeaux de mariage, mais pour défaut pratique nous préférons les cadeaux en espèces dans une enveloppe que vous nous remettrez pendant la remise des cadeaux officielle. Merci pour votre compréhension."
                 </p>
             </div>
 
@@ -65,7 +65,7 @@ const Cadeaux = () => {
                      </span>
                      <span className="hidden md:block w-px h-4 bg-stone-300"></span>
                      <span className="text-stone-600 text-xs md:text-sm font-bold uppercase tracking-wider">
-                        BILLETS PHYSIQUES EXIGÉS
+                        LES BILLETS PHYSIQUES SONT EXIGÉS A LA SOIRÉE
                      </span>
                   </div>
                </div>
