@@ -13,10 +13,10 @@ const DressCode = () => {
 
   // Vos photos d'inspiration
   const inspirations = [
-    { src: "/p1.jpeg", alt: "Inspiration Homme" },
-    { src: "/p2.jpeg", alt: "Inspiration Femme" },
-    { src: "/p3.jpeg", alt: "Inspiration Accessoires" },
-    { src: "/p4.jpeg", alt: "Inspiration Couple" }
+    { src: "/p1.jpeg", alt: "Homme" },
+    { src: "/p2.jpeg", alt: "Femme" },
+    { src: "/p3.jpeg", alt: "Accessoires" },
+    { src: "/p4.jpeg", alt: "Couple" }
   ];
 
   return (
@@ -31,29 +31,24 @@ const DressCode = () => {
             {/* Titre & Thème */}
             <div>
               <h2 className="text-4xl md:text-5xl font-sans font-light text-black mb-2 tracking-wide">
-                Tenue & Dress Code
+                Dress Code
               </h2>
               
               <div className="flex flex-row items-baseline gap-2">
-                <span className="text-black font-sans text-lg">Thème :</span>
+                <span className="text-black font-sans text-lg">Thème:</span>
                 <span className="text-3xl md:text-4xl font-serif italic text-black" style={{ fontFamily: 'cursive' }}>
-                  Élégance Tropicale
+                  Élégance & Glamour
                 </span>
               </div>
             </div>
 
-            {/* Suggestions & Couleurs */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <h3 className="text-lg font-bold text-black font-sans">Suggestion :</h3>
-              </div>
-              
+            
               {/* MODIFICATION : Suppression du cadre (bg-stone-50 et border) */}
               <div className="pl-1">
                 <div className="flex items-start gap-3 mb-3">
                     <Palette className="w-5 h-5 text-black mt-0.5 shrink-0" />
                     <p className="text-black text-sm md:text-base">
-                        Nuances de vert et d'orange, Terracotta et vert émeraude.
+                        Les nuances d’Orange ( terracota ) et de Vert ( émeraude ).
                     </p>
                 </div>
 
@@ -62,7 +57,6 @@ const DressCode = () => {
                     {colors.map((color, index) => (
                     <div 
                         key={index}
-                        // MODIFICATION : Taille réduite à w-6 h-6 (au lieu de w-8 h-8)
                         className="w-6 h-6 rounded-full border border-black/10 shadow-sm"
                         style={{ backgroundColor: color }}
                         title={color}
@@ -75,11 +69,16 @@ const DressCode = () => {
             {/* Texte Poétique */}
             <div className="pt-2">
               <p className="text-lg text-black font-serif italic opacity-90 leading-relaxed">
-                "Dans un univers tropical et dans une ambiance chaleureuse, pensez à venir avec votre plus beau sourire, il illuminera cette journée !"
+                "Dans un univers Glamour et dans une ambiance chaleureuse, pensez à venir avec votre plus beau sourire, il illuminera cette journée !"
               </p>
             </div>
-
           </div>
+
+          {/* Suggestions & Couleurs */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-bold text-black font-sans">Suggestion :</h3>
+              </div> 
 
           {/* --- PARTIE DROITE : GALERIE PHOTOS (COLLAGE) --- */}
           <div className="w-full md:w-1/2 pt-4">

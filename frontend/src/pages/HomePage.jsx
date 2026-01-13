@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Calendar, MapPin, Clock, Lock, AlertCircle, X, ArrowUpRight } from 'lucide-react';
+import { Heart, Lock, AlertCircle, X, ArrowUpRight, AlignJustify } from 'lucide-react';
 import EventDetails from './EventDetails';
 import Son from './Son'; 
 import DressCode from './DressCode';
+import Cadeaux from './Cadeaux'; 
+
 // --- CONFIGURATION ---
 const CONFIG = {
-  coupleNames: "Caïus\u00A0&\u00A0Fabrice",  // Caïus-ange & Fabrice
+  coupleNames: "Caïus\u00A0&\u00A0Fabrice",
   groomName: "Fabrice",
   brideName: "Caïus",
   weddingDate: "2026-04-04T20:00:00",
@@ -121,12 +123,11 @@ const HomePage = ({ onNavigate }) => {
   const [showGuide, setShowGuide] = useState(false);
 
   useEffect(() => {
-
     if (!guideDejaAffiche) {
       const timer = setTimeout(() => {
         setShowGuide(true);
         guideDejaAffiche = true;
-      }, 2200); // 2 secondes
+      }, 2200);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -163,20 +164,29 @@ const HomePage = ({ onNavigate }) => {
   }, []);
 
   return (
-    <div className="min-h-screen overflow-x-hidden relative">
+    <div className="min-h-screen overflow-x-hidden bg-stone-50">
       <FloatingHearts />
       
       {showGuide && <WelcomeGuide onClose={closeGuide} />}
 
-      {/* Hero Section */}
-      <section
-        className="relative min-h-screen flex items-center justify-center px-2 py-10 reveal-on-scroll reveal-scale bg-white"
-        style={{ backgroundImage: "url('/photo.jpeg')", backgroundSize: 'contain', backgroundPosition: 'center center', backgroundRepeat: 'no-repeat' }}
-      >
-        <div className="absolute top-4 right-3 sm:top-6 sm:right-6 z-20 flex gap-2 sm:gap-4">
+      {/* --- HEADER (Menu + Boutons) --- */}
+      {/* Modification : px-3 au lieu de px-4 pour réduire les marges externes et rapprocher du bord */}
+      <nav className="bg-white border-b border-stone-100 px-3 py-3 sticky top-0 z-50 flex items-center justify-between shadow-sm">
+        
+        {/* Menu Hamburger (Gauche) */}
+        <div className="text-[#064E3B] pl-1">
+          <AlignJustify size={24} />
+        </div>
+
+        {/* Boutons (Droite) */}
+        {/* Modification : gap-2 au lieu de gap-3 pour rapprocher les boutons entre eux */}
+        <div className="flex gap-2">
           <button
             onClick={() => document.getElementById('notre-histoire')?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-2.5 py-1.5 sm:px-4 sm:py-3 bg-[#E2725B] text-[#064E3B] font-bold text-[8px] sm:text-[10px] md:text-xs rounded-xl sm:rounded-2xl shadow-lg hover:scale-105 transition-transform border border-[#064E3B]/10 uppercase tracking-wider whitespace-nowrap"
+            // Modifications de taille :
+            // - px-2.5 py-1.5 (plus petit padding)
+            // - text-[9px] (texte plus petit pour mobile)
+            className="px-2.5 py-1.5 bg-[#E2725B] text-white font-bold text-[9px] sm:text-[10px] md:text-xs rounded-lg shadow-md hover:bg-[#d1624c] transition-colors uppercase tracking-wider whitespace-nowrap"
           >
             Notre Histoire
           </button>
@@ -185,39 +195,36 @@ const HomePage = ({ onNavigate }) => {
               closeGuide();
               onNavigate('rsvp-oui');
             }}
-            className="px-2.5 py-1.5 sm:px-4 sm:py-3 bg-[#E2725B] text-[#064E3B] font-bold text-[8px] sm:text-[10px] md:text-xs rounded-xl sm:rounded-2xl shadow-lg hover:scale-105 transition-transform border border-[#064E3B]/10 uppercase tracking-wider whitespace-nowrap"
+            // Modifications identiques ici
+            className="px-2.5 py-1.5 bg-[#E2725B] text-white font-bold text-[9px] sm:text-[10px] md:text-xs rounded-lg shadow-md hover:bg-[#d1624c] transition-colors uppercase tracking-wider whitespace-nowrap"
           >
             Présence
           </button>
         </div>
-        
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="absolute inset-0 bg-gradient-radial from-red-900/20 via-transparent to-transparent mix-blend-overlay"></div>
-        <div className="relative z-10 text-center w-full max-w-5xl mx-auto" style={{transform: `translateY(${scrollY * 0.3}px)`}}>
-          <div className="mb-6 md:mb-8 inline-block">
-          </div>
-          
-          <h1 className="font-serif italic text-4xl sm:text-6xl md:text-7xl lg:text-9xl mb-4 md:mb-6 text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-pink-300 to-red-400 leading-tight px-4 text-center drop-shadow-2xl">
-            {CONFIG.coupleNames}
-          </h1>
-          
-          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-amber-200 font-medium italic mb-8 tracking-wide px-4">
-            Nous unissons nos vies
-          </p>
+      </nav>
 
-          <div className="w-24 md:w-32 h-px bg-gradient-to-r from-transparent via-[#E2725B] to-transparent mx-auto mb-8 md:mb-12 opacity-80"></div>
+      {/* --- HERO IMAGE SECTION --- */}
+      <div className="relative w-full bg-white">
+        <img 
+          src="/photo.jpeg" 
+          alt="Couple Mariés" 
+          className="w-full h-auto block"
+        />
 
-          <p className="text-sm md:text-lg text-amber-200 font-medium italic tracking-widest uppercase drop-shadow-lg">
-            {new Date(CONFIG.weddingDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-          </p>
+        {/* SUPERPOSITION TEXTE */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end items-center pb-8 sm:pb-16 text-center">
+             <h1 className="font-serif italic text-4xl sm:text-6xl md:text-8xl mb-2 text-white leading-tight px-4 drop-shadow-lg">
+                {CONFIG.coupleNames}
+             </h1>
+             <p className="text-lg sm:text-2xl text-amber-100 font-medium italic tracking-wide px-4 drop-shadow-md">
+                Nous unissons nos vies
+             </p>
+             <div className="w-16 h-px bg-amber-200/60 my-4 mx-auto"></div>
+             <p className="text-sm sm:text-lg text-white/90 font-medium uppercase tracking-widest drop-shadow-md">
+                {new Date(CONFIG.weddingDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+             </p>
         </div>
-
-        <div className="absolute bottom-0 left-0 right-0 overflow-hidden leading-[0] pointer-events-none">
-          <svg className="relative block w-full h-[100px]" viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,0 L1200,0 L1200,120 L0,120 Z" fill="#fafaf9" />
-          </svg>
-        </div>
-      </section>
+      </div>
 
       {/* Message d'invitation */}
       <section className="relative w-full bg-[#fafaf9] py-16 md:py-24 px-4 overflow-hidden">
@@ -233,9 +240,6 @@ const HomePage = ({ onNavigate }) => {
           <img 
              src="/flower.jpeg" 
              alt="Décoration" 
-             // -top-6 -left-6 : Fait ressortir l'image vers le haut et la gauche (pour chevaucher la bordure)
-             // w-24 md:w-32 : Taille de la fleur
-             // mix-blend-multiply : Rend le fond blanc de l'image transparent pour un effet propre
              className="absolute -top-6 -left-6 md:-top-10 md:-left-10 w-19 md:w-40 h-auto z-20 pointer-events-none mix-blend-multiply brightness-110 contrast-125"
           />
           <h2 className="text-5xl md:text-7xl mb-8 text-slate-600 font-serif italic" style={{ fontFamily: 'cursive, serif' }}>
@@ -300,7 +304,7 @@ const HomePage = ({ onNavigate }) => {
                     />
                  </div>
               </div>
-              <p className="text-stone-700 leading-relaxed text-base md:text-lg max-w-3xl mx-auto">
+              <p className="text-stone-700 leading-relaxed text-base md:text-lg max-w-3xl mx-auto font-serif italic">
                 Tout a commencé par des regards croisés au Cameroun, sur les bancs d'un centre de langue. Mais c'est le destin qui nous a véritablement réunis à des milliers de kilomètres de là, au détour d'un rayon de supermarché. 
                 <br /><br />
                 Ce hasard incroyable s'est transformé en une conversation passionnée à la sortie du magasin. D'une belle amitié née de ces retrouvailles inattendues, l'amour a fini par éclore au fil des rendez-vous, transformant une simple coïncidence en une évidence éternelle.
@@ -315,6 +319,8 @@ const HomePage = ({ onNavigate }) => {
       
       <DressCode />
 
+      <Cadeaux />
+
       {/* RSVP Section */}
       <section className="py-16 md:py-24 px-4 relative reveal-on-scroll">
         <div className="max-w-6xl mx-auto">
@@ -325,11 +331,6 @@ const HomePage = ({ onNavigate }) => {
               <p className="text-stone-500 text-sm md:text-lg max-w-3xl mx-auto mb-8 leading-relaxed">
                   Chaque détail compte pour nous, et votre présence est le cadeau le plus précieux. Veuillez confirmer votre participation avant le 20 mars 2026.
               </p>
-
-            <h3 className="text-xl md:text-2xl text-stone-600 mb-4 uppercase tracking-wider">Confirmation de Présence</h3>
-            <p className="text-stone-400 text-sm md:text-base">
-                 Date limite : {new Date(CONFIG.rsvpDeadline).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-            </p>
           </div>
 
           {isDeadlinePassed ? (
@@ -343,13 +344,14 @@ const HomePage = ({ onNavigate }) => {
               </p>
             </div>
           ) : (
-            <div className="flex flex-row gap-4 md:gap-6 max-w-lg mx-auto justify-center items-stretch">
+            <div className="flex flex-row gap-4 md:gap-6 max-w-4xl mx-auto justify-center items-stretch">
+              {/* Bouton OUI */}
               <button
                 onClick={() => onNavigate('rsvp-oui')}
                 className="flex-1 group relative w-full"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-green-200 to-emerald-200 rounded-3xl blur-lg opacity-0 group-hover:opacity-70 transition-opacity duration-500"></div>
-                <div className="relative bg-white text-stone-800 rounded-3xl p-8 md:p-12 hover:scale-105 transition-transform shadow-xl h-full flex flex-col items-center justify-center card-animate reveal-on-scroll border border-stone-100">
+                <div className="relative bg-white text-stone-800 rounded-3xl p-6 md:p-12 hover:scale-105 transition-transform shadow-xl h-full flex flex-col items-center justify-center card-animate reveal-on-scroll border border-stone-100">
                   <div className="w-16 h-16 md:w-32 md:h-32 bg-green-50 rounded-full flex items-center justify-center mb-4 md:mb-6">
                     <svg className="w-8 h-8 md:w-16 md:h-16 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
@@ -357,6 +359,21 @@ const HomePage = ({ onNavigate }) => {
                   </div>
                   <p className="text-stone-500 text-sm md:text-lg mb-1 md:mb-2">Oui,</p>
                   <p className="text-lg md:text-3xl font-bold text-center leading-tight">je vais participer</p>
+                </div>
+              </button>
+
+              {/* Bouton NON */}
+              <button
+                onClick={() => onNavigate('rsvp-non')}
+                className="flex-1 group relative w-full"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-red-200 to-pink-200 rounded-3xl blur-lg opacity-0 group-hover:opacity-70 transition-opacity duration-500"></div>
+                <div className="relative bg-white text-stone-800 rounded-3xl p-6 md:p-12 hover:scale-105 transition-transform shadow-xl h-full flex flex-col items-center justify-center card-animate reveal-on-scroll border border-stone-100">
+                  <div className="w-16 h-16 md:w-32 md:h-32 bg-red-50 rounded-full flex items-center justify-center mb-4 md:mb-6">
+                    <X className="w-8 h-8 md:w-16 md:h-16 text-red-500" strokeWidth={3} />
+                  </div>
+                  <p className="text-stone-500 text-sm md:text-lg mb-1 md:mb-2">Non,</p>
+                  <p className="text-lg md:text-3xl font-bold text-center leading-tight">je ne pourrai pas participer</p>
                 </div>
               </button>
             </div>
@@ -373,7 +390,6 @@ const HomePage = ({ onNavigate }) => {
 
        {/* Admin Button */}
        <button
-        //href="?view=admin"
         onClick={() => onNavigate('admin')}
         className="fixed bottom-5 right-5 md:bottom-5 md:right-6 w-5 h-5 md:w-6 md:h-6 bg-white border border-stone-200 rounded-full hover:bg-stone-100 transition-all flex items-center justify-center shadow-xl z-50 cursor-pointer text-stone-400"
         title="Accès Contrôleur"
