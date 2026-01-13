@@ -227,6 +227,7 @@ const HomePage = ({ onNavigate }) => {
       </div>
 
       {/* Message d'invitation */}
+      {/* Message d'invitation */}
       <section className="relative w-full bg-[#fafaf9] py-16 md:py-24 px-4 overflow-hidden">
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-24 md:w-48 text-pink-300/80 pointer-events-none">
            <MagnoliaLeft className="w-full h-auto" />
@@ -237,11 +238,25 @@ const HomePage = ({ onNavigate }) => {
 
         <div className="relative z-10 max-w-4xl mx-auto bg-white border border-gray-100 rounded-3xl p-8 md:p-16 shadow-xl text-center card-animate reveal-on-scroll">
 
+          {/* GROUPE DECORATION FLORALE (Coin Haut Gauche) */}
+          
+          {/* Fleur 2 (Orange) - En arrière plan, PLUS PETITE et plus proche du coin */}
+          <img 
+             src="/f2.png" 
+             alt="Décoration arrière" 
+             // Modifs : w-16 (mobile) / w-24 (PC) pour être plus petite
+             // left-8 / left-14 pour se coller à la fleur verte
+             className="absolute -top-9 left-8 md:-top-12 md:left-14 w-16 md:w-24 h-auto z-10 pointer-events-none mix-blend-multiply brightness-110 contrast-125 transform rotate-12 opacity-80"
+          />
+
+          {/* Fleur 1 (Vert) - Au premier plan, taille principale */}
           <img 
              src="/flower.jpeg" 
-             alt="Décoration" 
-             className="absolute -top-6 -left-6 md:-top-10 md:-left-10 w-19 md:w-40 h-auto z-20 pointer-events-none mix-blend-multiply brightness-110 contrast-125"
+             alt="Décoration avant" 
+             // Modifs : -top-5 -left-5 pour bien mordre sur le coin
+             className="absolute -top-5 -left-5 w-24 md:w-36 h-auto z-20 pointer-events-none mix-blend-multiply brightness-110 contrast-125 transform -rotate-6"
           />
+
           <h2 className="text-5xl md:text-7xl mb-8 text-slate-600 font-serif italic" style={{ fontFamily: 'cursive, serif' }}>
             Vous êtes invité!
           </h2>
