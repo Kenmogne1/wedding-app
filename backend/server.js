@@ -9,7 +9,8 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: [
-    "https://wedding-fabrice-ange.vercel.app",  
+    "https://wedding-fabrice-ange.vercel.app", 
+    "https://wedding-ange-et-fabrice.vercel.app", 
     "http://localhost:5173",  // Pour les tests locaux
     "http://localhost:3000"  
   ],
