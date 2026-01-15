@@ -200,13 +200,26 @@ const HomePage = ({ onNavigate }) => {
         
         {/* BLOC TEXTE */}
         <div className="text-center z-10 px-4 mb-8">
-             <h1 className="font-['Great_Vibes',_cursive] text-6xl md:text-8xl lg:text-9xl mb-3 text-[#064E3B] leading-tight px-4 drop-shadow-sm">
-                {CONFIG.coupleNames}
-             </h1>
+            <h1 className="font-['Great_Vibes',_cursive] text-[#064E3B] leading-none px-4 drop-shadow-sm flex flex-col items-center gap-2 mb-4">
+              {/* Ligne 1 : Caïus - Ange */}
+              <span className="text-6xl md:text-8xl lg:text-9xl block">
+                  Caïus - Ange
+              </span>
+              
+              {/* Ligne 2 : & (un peu plus petit pour l'élégance) */}
+              <span className="text-4xl md:text-6xl lg:text-7xl block my-2 opacity-80">
+                  &
+              </span>
+              
+              {/* Ligne 3 : Fabrice */}
+              <span className="text-6xl md:text-8xl lg:text-9xl block">
+                  Fabrice
+              </span>
+          </h1>
              <p className="text-xl md:text-3xl text-emerald-700 font-medium italic tracking-wide px-4">
                 Se disent OUI devant Dieu, devant les Hommes et les ancêtres
              </p>
-             <p className="mt-6 text-sm md:text-lg text-stone-500 font-bold uppercase tracking-[0.2em]">
+             <p className="mt-6 text-xl md:text-3xl text-stone-500 font-bold uppercase tracking-[0.2em]">
                 03 & 04 AVRIL 2026
              </p>
         </div>

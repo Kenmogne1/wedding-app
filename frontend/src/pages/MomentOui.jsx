@@ -35,7 +35,7 @@ const MomentOui = () => {
 
               {/* Paragraphe */}
               <p className="text-stone-500 leading-relaxed font-serif font-light text-sm md:text-base">
-                Sous le ciel étoilé d'une soirée parfaite, entouré par la magie de la nature, 
+                Sous le ciel étoilé d'une soirée parfaite, entouré de nos amis et de nos familles, 
                 Fabrice s'est agenouillé, le cœur plein d'espoir et d'amour. 
                 Ses mots sincères et émouvants ont été la musique de mon âme. 
                 En disant 'Oui', nous avons promis de naviguer ensemble sur les mers de la vie, 

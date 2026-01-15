@@ -26,19 +26,33 @@ const DressCode = () => {
           {/* --- PARTIE GAUCHE : TEXTES --- */}
           <div className="w-full md:w-1/2 space-y-8">
 
-            <h2 className="text-4xl md:text-5xl font-sans font-light text-black tracking-wide">
+            <h2 className="text-4xl md:text-5xl font-sans font-light text-[#B59A3A] tracking-wide">
               Dress to impress!!!
             </h2>
+            
+          {/* --- SECTION DOT (MODIFIÉE AVEC PHOTO) --- */}
+            <div className="relative pl-4 border-l-4 border-[#8B4B28]">
+              <div className="flex flex-row items-start gap-4">
+                {/* Texte */}
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-[#8B4B28] mb-2 font-serif">
+                    Dot
+                  </h3>
+                  <p className="text-black text-sm md:text-base leading-relaxed">
+                    Pour la cérémonie traditionnelle dans un élan de convivialité, nous avons prévu un tissu pagne en guise d'uniforme.
+                  </p>
+                </div>
 
-          {/* DOT */}
-          <div className="relative pl-4 border-l-4 border-[#8B4B28]">
-            <h3 className="text-xl font-semibold text-[#8B4B28] mb-2 font-serif">
-              Dot
-            </h3>
-            <p className="text-black text-sm md:text-base leading-relaxed">
-              Pour la cérémonie traditionnelle dans un élan de convivialité, nous avons prévu un tissu pagne en guise d'uniforme.
-            </p>
-          </div>
+                {/* Photo du Pagne */}
+                <div className="shrink-0 w-24 md:w-28">
+                  <img 
+                    src="/pagne.jpeg" 
+                    alt="Tissu Pagne" 
+                    className="w-full h-auto rounded-lg shadow-md border border-stone-200 object-cover transform hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+            </div>
 
           {/* Séparateur élégant */}
           <div className="flex items-center gap-3 py-2">

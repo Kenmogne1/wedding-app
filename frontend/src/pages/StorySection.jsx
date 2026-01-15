@@ -28,7 +28,7 @@ const StorySection = () => {
         <div className="bg-white rounded-2xl md:rounded-3xl p-3 md:p-5 text-center shadow-xl card-animate reveal-on-scroll border border-stone-100">
           
           {/* Bloc Cœur */}
-          <div className="mx-auto mb-6 w-60 h-60 md:w-80 md:h-80">
+          <div className="mx-auto mb-8 w-80 h-80 md:w-[450px] md:h-[450px]">
             <svg viewBox="0 0 24 24" className="w-full h-full drop-shadow-xl">
               <defs>
                 <clipPath id="heartClip">
