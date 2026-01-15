@@ -20,7 +20,7 @@ const EventDetails = () => {
       <div 
         className="absolute inset-0 z-0"
         style={{ 
-          backgroundImage: "url('/fun1.jpeg')", 
+          backgroundImage: "url('/fff.jpeg')", 
           backgroundSize: 'cover', 
           backgroundPosition: 'center' 
         }}

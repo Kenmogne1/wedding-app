@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Lock, AlertCircle, X, ArrowUpRight, AlignJustify } from 'lucide-react';
+import { Heart, Lock, X, ArrowUpRight, AlignJustify } from 'lucide-react';
+
 import EventDetails from './EventDetails';
 import Son from './Son'; 
 import DressCode from './DressCode';
 import Cadeaux from './Cadeaux'; 
+import StorySection from './StorySection';
+import CountdownSection from './CountdownSection';
+import RSVPSection from './RSVPSection';
+import MomentOui from './MomentOui';
 
 // --- CONFIGURATION ---
 const CONFIG = {
@@ -35,38 +40,6 @@ const FloatingHearts = () => (
     ))}
   </div>
 );
-
-const FlowerImage = ({ className = '', alt = 'Fleur décorative' }) => {
-  const [loaded, setLoaded] = useState(false);
-  const [error, setError] = useState(false);
-  const imgClass = `${className} ${loaded && !error ? 'block' : 'hidden'}`.trim();
-  const svgClass = `${className} ${(!loaded || error) ? 'block' : 'hidden'}`.trim();
-
-  return (
-    <div className={`inline-block`} style={{lineHeight: 0}}>
-      {!error && (
-        <img
-          src="/images.jpeg"
-          alt={alt}
-          className={imgClass}
-          onLoad={() => setLoaded(true)}
-          setError={() => setError(true)}
-          style={{ objectFit: 'contain' }}
-        />
-      )}
-      {(error || !loaded) && (
-        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" className={svgClass} aria-hidden>
-          <g fill="none" fillRule="evenodd">
-            <circle cx="32" cy="32" r="30" fill="#FFEDE6" />
-            <path d="M32 20c6 0 10 4 10 10s-4 10-10 10-10-4-10-10 4-10 10-10z" fill="#F48C49" />
-            <path d="M22 32c0-6 4-10 10-10" stroke="#E26A2B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M42 32c0 6-4 10-10 10" stroke="#E26A2B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </g>
-        </svg>
-      )}
-    </div>
-  );
-};
 
 const MagnoliaLeft = ({ className }) => (
   <svg viewBox="0 0 200 400" className={className} xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -115,7 +88,7 @@ const WelcomeGuide = ({ onClose }) => {
 
 let guideDejaAffiche = false;
 
-// --- COMPOSANT HOMEPAGE ---
+// --- COMPOSANT HOMEPAGE PRINCIPAL ---
 const HomePage = ({ onNavigate }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [scrollY, setScrollY] = useState(0);
@@ -166,10 +139,11 @@ const HomePage = ({ onNavigate }) => {
   return (
     <div className="min-h-screen overflow-x-hidden bg-stone-50">
       
-      {/* Styles globaux et animations ajoutés ici */}
+      {/* Styles globaux */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
+        /* Animation pour les petits coeurs flottants */
         @keyframes heartbeat {
           0% { transform: scale(1); }
           50% { transform: scale(1.15); } 
@@ -181,14 +155,15 @@ const HomePage = ({ onNavigate }) => {
           animation: heartbeat 4s ease-in-out infinite;
         }
 
-        /* Animation pour la photo Hero (Très lent) */
-        @keyframes hero-pulse {
+        /* NOUVELLE Animation spécifique pour la grande photo */
+        @keyframes hero-pulse-slow {
           0% { transform: scale(1); }
-          50% { transform: scale(1.05); } 
+          50% { transform: scale(1.06); } /* Zoom léger */
           100% { transform: scale(1); }
         }
-        .animate-hero-pulse {
-          animation: hero-pulse 8s ease-in-out infinite;
+        .animate-hero-image-only {
+          animation: hero-pulse-slow 5s ease-in-out infinite;
+          transform-origin: center center;
         }
       `}</style>
 
@@ -196,13 +171,11 @@ const HomePage = ({ onNavigate }) => {
       
       {showGuide && <WelcomeGuide onClose={closeGuide} />}
 
-      {/* --- HEADER (Menu + Boutons) --- */}
+      {/* --- HEADER --- */}
       <nav className="bg-white border-b border-stone-100 px-3 py-3 sticky top-0 z-50 flex items-center justify-between shadow-sm">
-        
         <div className="text-[#064E3B] pl-1">
           <AlignJustify size={24} />
         </div>
-
         <div className="flex gap-2">
           <button
             onClick={() => document.getElementById('notre-histoire')?.scrollIntoView({ behavior: 'smooth' })}
@@ -222,37 +195,45 @@ const HomePage = ({ onNavigate }) => {
         </div>
       </nav>
 
-      {/* --- HERO IMAGE SECTION --- */}
-      {/* Ajout de overflow-hidden pour que l'image ne dépasse pas pendant le zoom */}
-      <div className="relative w-full bg-white overflow-hidden">
-        {/* Ajout de la classe animate-hero-pulse pour l'effet de battement lent */}
-        <img 
-          src="/photo.jpeg" 
-          className="w-full h-auto block animate-hero-pulse"
-        />
-        <div className="absolute inset-0 bg-black/35"></div>
-
-        {/* SUPERPOSITION TEXTE */}
-        {/* pb-24 sm:pb-40 : Remonte le texte plus haut */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end items-center pb-29 sm:pb-45 text-center">
-    
-             {/* Changement de police : font-['Great_Vibes'] */}
-             <h1 className="font-['Great_Vibes',_cursive] text-5xl sm:text-7xl md:text-9xl mb-2 text-white leading-tight px-4 drop-shadow-lg">
+      {/* --- HERO SECTION --- */}
+      <div className="w-full bg-white pt-10 pb-0 flex flex-col items-center">
+        
+        {/* BLOC TEXTE */}
+        <div className="text-center z-10 px-4 mb-8">
+             <h1 className="font-['Great_Vibes',_cursive] text-6xl md:text-8xl lg:text-9xl mb-3 text-[#064E3B] leading-tight px-4 drop-shadow-sm">
                 {CONFIG.coupleNames}
              </h1>
-             
-             <p className="text-lg sm:text-2xl text-emerald-700 font-medium italic tracking-wide px-4 drop-shadow-md">
-                Nous unissons nos vies
+             <p className="text-xl md:text-3xl text-emerald-700 font-medium italic tracking-wide px-4">
+                Se disent OUI devant Dieu, devant les Hommes et les ancêtres
              </p>
-             <div className="w-16 h-px bg-amber-200/60 my-4 mx-auto"></div>
-             <p className="text-sm sm:text-lg text-white/90 font-medium uppercase tracking-widest drop-shadow-md">
-                {new Date(CONFIG.weddingDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+             <p className="mt-6 text-sm md:text-lg text-stone-500 font-bold uppercase tracking-[0.2em]">
+                03 & 04 AVRIL 2026
              </p>
         </div>
+
+        {/* BLOC PHOTO (Style "Anna et Jean" : Ovale parfait + Filet blanc interne) */}
+        <div className="relative w-full max-w-sm md:max-w-md lg:max-w-lg px-6 md:px-0 pb-10">
+           
+           {/* Le Cadre : rounded-full crée un ovale parfait (pilule) */}
+           <div className="relative w-full aspect-[3/5] overflow-hidden rounded-full shadow-2xl z-20 bg-stone-100">
+               
+               {/* L'image animée (Zoom In/Out) */}
+               <img 
+                 src="/im2.jpeg" 
+                 className="w-full h-full object-cover animate-hero-image-only"
+                 alt="Les mariés"
+               />
+
+               {/* Le Filet Blanc Interne (Fixe et superposé) */}
+               <div className="absolute inset-2.5 border border-white/70 rounded-full pointer-events-none z-30"></div>
+           </div>
+
+        </div>
+
       </div>
 
       {/* Message d'invitation */}
-      <section className="relative w-full bg-[#fafaf9] py-16 md:py-24 px-4 overflow-hidden">
+      <section className="relative w-full bg-[#fafaf9] py-16 md:py-24 px-4 overflow-hidden -mt-20 pt-28 rounded-t-3xl z-10">
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-24 md:w-48 text-pink-300/80 pointer-events-none">
            <MagnoliaLeft className="w-full h-auto" />
         </div>
@@ -261,23 +242,15 @@ const HomePage = ({ onNavigate }) => {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto bg-white border border-gray-100 rounded-3xl p-8 md:p-16 shadow-xl text-center card-animate reveal-on-scroll">
-
-          {/* GROUPE DECORATION FLORALE (Coin Haut Gauche) */}
+         
           <img 
-             src="/f2.png" 
-             className="absolute -top-9 left-8 md:-top-12 md:left-14 w-16 md:w-24 h-auto z-10 pointer-events-none mix-blend-multiply brightness-110 contrast-125 transform rotate-12 opacity-80"
-          />
-
-          <img 
-             src="/flower.jpeg" 
+             src="/image.jpeg" 
              alt="Décoration avant" 
              className="absolute -top-5 -left-5 w-24 md:w-36 h-auto z-20 pointer-events-none mix-blend-multiply brightness-110 contrast-125 transform -rotate-6"
           />
-
           <h2 className="text-5xl md:text-7xl mb-8 text-slate-600 font-serif italic" style={{ fontFamily: 'cursive, serif' }}>
             Vous êtes invité!
           </h2>
-          
           <div className="text-slate-600 leading-relaxed text-sm md:text-lg space-y-4 font-sans max-w-2xl mx-auto">
             <p>
               Nous voulons passer le jour le plus important de notre vie avec les personnes qui comptent le plus pour nous. C’est pourquoi nous vous invitons cordialement à notre mariage.
@@ -289,83 +262,12 @@ const HomePage = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* Countdown Section */}
-      <section className="py-16 md:py-24 px-4 relative reveal-on-scroll">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl md:text-4xl font-serif text-center mb-12 md:mb-16 text-stone-700 px-4">
-            {isDeadlinePassed ? "Les confirmations sont closes" : "Temps restant pour confirmer"}
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
-            {[
-              {label: 'Jours', value: timeLeft.days},
-              {label: 'Heures', value: timeLeft.hours},
-              {label: 'Minutes', value: timeLeft.minutes},
-              {label: 'Secondes', value: timeLeft.seconds}
-            ].map((item, idx) => (
-              <div key={idx} className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-100 to-pink-200 rounded-xl md:rounded-2xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500"></div>
-                <div className="relative bg-white border border-stone-200 rounded-xl md:rounded-2xl p-4 md:p-8 text-center hover:border-red-200 transition-all duration-300 shadow-sm hover:shadow-md">
-                  
-                  <div className="text-3xl sm:text-4xl md:text-6xl font-bold text-[#E35336] mb-1 md:mb-2">
-                    {String(item.value).padStart(2, '0')}
-                  </div>
-                  
-                  <div className="text-[10px] sm:text-xs md:text-sm uppercase tracking-widest text-stone-500">{item.label}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* --- SECTION COMPTE À REBOURS --- */}
+      <CountdownSection timeLeft={timeLeft} isDeadlinePassed={isDeadlinePassed} />
 
-    {/* Story Section */}
-      <section id="notre-histoire" className="py-16 md:py-24 px-4 relative reveal-on-scroll scroll-mt-24">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center justify-center mb-16 md:mb-20 px-4">
-            <FlowerImage className="w-12 h-12 md:w-28 md:h-28 mx-4 md:mx-8 opacity-95" />
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-center text-stone-800">Notre Histoire</h2>
-            <FlowerImage className="w-12 h-12 md:w-28 md:h-28 mx-4 md:mx-8 opacity-95" />
-          </div>
-           <div className="bg-white rounded-2xl md:rounded-3xl p-8 md:p-12 text-center shadow-xl card-animate reveal-on-scroll border border-stone-100">
-          
-          {/* Bloc Cœur */}
-          <div className="mx-auto mb-6 w-60 h-60 md:w-80 md:h-80">
-            <svg viewBox="0 0 24 24" className="w-full h-full drop-shadow-xl">
-              <defs>
-                <clipPath id="heartClip">
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                </clipPath>
-              </defs>
-
-              <path 
-                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" 
-                fill="#166534" 
-                stroke="white" 
-                strokeWidth="0.5" 
-              />
-
-              <image 
-                className="animate-image-pulse"
-                href="/photo1.jpeg" 
-                x="2" 
-                y="2" 
-                width="20" 
-                height="20" 
-                preserveAspectRatio="xMidYMid slice" 
-                clipPath="url(#heartClip)" 
-              />
-            </svg>
-          </div>
-
-              <p className="text-stone-700 leading-relaxed text-base md:text-lg max-w-3xl mx-auto font-serif italic">
-                Tout a commencé par des regards croisés au Cameroun, sur les bancs d'un centre de langue. Mais c'est le destin qui nous a véritablement réunis à des milliers de kilomètres de là, au détour d'un rayon de supermarché. 
-                <br /><br />
-                Ce hasard incroyable s'est transformé en une conversation passionnée à la sortie du magasin. D'une belle amitié née de ces retrouvailles inattendues, l'amour a fini par éclore au fil des rendez-vous, transformant une simple coïncidence en une évidence éternelle.
-              </p>
-            </div>
-        </div>
-      </section>
-       
+      {/* --- SECTION HISTOIRE --- */}
+      <StorySection />
+      <MomentOui />
       <Son />
       <div className="w-full h-35 md:h-40"></div>
       <EventDetails />
@@ -374,65 +276,12 @@ const HomePage = ({ onNavigate }) => {
 
       <Cadeaux />
 
-      {/* RSVP Section */}
-      <section className="py-16 md:py-24 px-4 relative reveal-on-scroll">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12 md:mb-16 px-4">
-              <h3 className="text-xl md:text-3xl font-serif text-stone-700 mb-6 leading-relaxed">
-                  Nous attendons avec impatience votre confirmation
-              </h3>
-              <p className="text-stone-500 text-sm md:text-lg max-w-3xl mx-auto mb-8 leading-relaxed">
-                  Chaque détail compte pour nous, et votre présence est le cadeau le plus précieux. Veuillez confirmer votre participation avant le 20 mars 2026.
-              </p>
-          </div>
-
-          {isDeadlinePassed ? (
-            <div className="bg-red-50 border border-red-200 rounded-3xl p-8 md:p-12 text-center max-w-2xl mx-auto shadow-lg reveal-on-scroll card-animate">
-              <div className="flex justify-center mb-6">
-                <AlertCircle className="w-16 h-16 text-red-500" />
-              </div>
-              <h3 className="text-2xl font-serif text-red-700 mb-3">Date limite atteinte</h3>
-              <p className="text-red-600/80 text-lg">
-                Vous ne pouvez plus confirmer votre présence car la date limite du {new Date(CONFIG.rsvpDeadline).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })} est passée.
-              </p>
-            </div>
-          ) : (
-            <div className="flex flex-row gap-4 md:gap-6 max-w-4xl mx-auto justify-center items-stretch">
-              {/* Bouton OUI */}
-              <button
-                onClick={() => onNavigate('rsvp-oui')}
-                className="flex-1 group relative w-full"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-green-200 to-emerald-200 rounded-3xl blur-lg opacity-0 group-hover:opacity-70 transition-opacity duration-500"></div>
-                <div className="relative bg-white text-stone-800 rounded-3xl p-6 md:p-12 hover:scale-105 transition-transform shadow-xl h-full flex flex-col items-center justify-center card-animate reveal-on-scroll border border-stone-100">
-                  <div className="w-16 h-16 md:w-32 md:h-32 bg-green-50 rounded-full flex items-center justify-center mb-4 md:mb-6">
-                    <svg className="w-8 h-8 md:w-16 md:h-16 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <p className="text-stone-500 text-sm md:text-lg mb-1 md:mb-2">Oui,</p>
-                  <p className="text-lg md:text-3xl font-bold text-center leading-tight">je vais participer</p>
-                </div>
-              </button>
-
-              {/* Bouton NON */}
-              <button
-                onClick={() => onNavigate('rsvp-non')}
-                className="flex-1 group relative w-full"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-red-200 to-pink-200 rounded-3xl blur-lg opacity-0 group-hover:opacity-70 transition-opacity duration-500"></div>
-                <div className="relative bg-white text-stone-800 rounded-3xl p-6 md:p-12 hover:scale-105 transition-transform shadow-xl h-full flex flex-col items-center justify-center card-animate reveal-on-scroll border border-stone-100">
-                  <div className="w-16 h-16 md:w-32 md:h-32 bg-red-50 rounded-full flex items-center justify-center mb-4 md:mb-6">
-                    <X className="w-8 h-8 md:w-16 md:h-16 text-red-500" strokeWidth={3} />
-                  </div>
-                  <p className="text-stone-500 text-sm md:text-lg mb-1 md:mb-2">Non,</p>
-                  <p className="text-lg md:text-3xl font-bold text-center leading-tight">je ne pourrai pas participer</p>
-                </div>
-              </button>
-            </div>
-          )}
-        </div>
-      </section>
+      {/* --- SECTION RSVP --- */}
+      <RSVPSection 
+        isDeadlinePassed={isDeadlinePassed} 
+        onNavigate={onNavigate} 
+        deadlineDate={CONFIG.rsvpDeadline} 
+      />
 
       {/* Footer */}
       <section className="py-12 md:py-16 px-4 border-t border-stone-200">
