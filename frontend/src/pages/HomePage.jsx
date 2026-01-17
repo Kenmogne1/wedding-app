@@ -224,7 +224,6 @@ const HomePage = ({ onNavigate }) => {
              </p>
         </div>
 
-        {/* BLOC PHOTO (Style "Anna et Jean" : Ovale parfait + Filet blanc interne) */}
         <div className="relative w-full max-w-sm md:max-w-md lg:max-w-lg px-6 md:px-0 pb-10">
            
            {/* Le Cadre : rounded-full crée un ovale parfait (pilule) */}
@@ -261,7 +260,7 @@ const HomePage = ({ onNavigate }) => {
              alt="Décoration avant" 
              className="absolute -top-5 -left-5 w-24 md:w-36 h-auto z-20 pointer-events-none mix-blend-multiply brightness-110 contrast-125 transform -rotate-6"
           />
-          <h2 className="text-5xl md:text-7xl mb-8 text-slate-600 font-serif italic" style={{ fontFamily: 'cursive, serif' }}>
+          <h2 className="font-serif text-5xl md:text-7xl mb-8 text-[#B59A3A] font-medium">
             Vous êtes invité!
           </h2>
           <div className="text-slate-600 leading-relaxed text-sm md:text-lg space-y-4 font-sans max-w-2xl mx-auto">

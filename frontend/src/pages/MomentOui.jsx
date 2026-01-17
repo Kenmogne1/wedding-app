@@ -25,7 +25,7 @@ const MomentOui = () => {
               {/* Titre */}
               <h2 className="font-serif font-light text-3xl md:text-5xl text-[#6B8E23] mb-1 leading-tight">
                 Le moment où nous <br />
-                avons dit 'Oui'
+                nous sommes dit 'Oui'
               </h2>
               
               {/* Sous-titre */}
@@ -49,15 +49,24 @@ const MomentOui = () => {
           <div className="w-full md:w-1/2 flex justify-center md:justify-start md:-ml-8 z-20">
             
             {/* Le Cercle Simple et Grand */}
-            <div className="relative w-72 h-72 md:w-[450px] md:h-[450px]">
-              {/* Cadre circulaire simple (border-8 blanc + shadow) */}
-              <div className="w-full h-full rounded-full overflow-hidden shadow-3xl">
+            <div className="relative w-full max-w-[260px] sm:max-w-xs md:max-w-md lg:max-w-lg mx-auto">
+  
+              {/* Cadre ovale */}
+              <div className="relative w-full aspect-[3/5] overflow-hidden rounded-full shadow-2xl bg-stone-100">
+                
+                {/* Image */}
                 <img 
-                  src="/photo.jpeg" 
-                  className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-700"
+                  src="/photo.jpeg"
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
                 />
+
+                {/* Filet blanc interne */}
+                <div className="absolute inset-2.5 border border-white/70 rounded-full pointer-events-none"></div>
+              
               </div>
+
             </div>
+
 
           </div>
 

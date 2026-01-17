@@ -26,7 +26,7 @@ const DressCode = () => {
           {/* --- PARTIE GAUCHE : TEXTES --- */}
           <div className="w-full md:w-1/2 space-y-8">
 
-            <h2 className="text-4xl md:text-5xl font-sans font-light text-[#B59A3A] tracking-wide">
+            <h2 className="text-4xl md:text-5xl font-serif font-light text-[#B59A3A] tracking-wide">
               Dress to impress!!!
             </h2>
             
