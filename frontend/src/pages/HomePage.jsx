@@ -95,7 +95,10 @@ const HomePage = ({ onNavigate }) => {
   const [scrollY, setScrollY] = useState(0);
   const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
-  const [showEnvelope, setShowEnvelope] = useState(true);
+  const [showEnvelope, setShowEnvelope] = useState(() => {
+  // On vérifie si l'enveloppe a déjà été ouverte dans cette session
+  return !sessionStorage.getItem('envelopeOpened');
+  });
   useEffect(() => {
     if (!guideDejaAffiche) {
       const timer = setTimeout(() => {
@@ -142,7 +145,11 @@ const HomePage = ({ onNavigate }) => {
 
       {/* insère l'enveloppe tout en haut */}
       {showEnvelope && (
-        <EnvelopeWelcome onOpen={() => setShowEnvelope(false)} />
+        <EnvelopeWelcome onOpen={() => {
+          // On enregistre dans la mémoire que c'est ouvert
+          sessionStorage.setItem('envelopeOpened', 'true'); 
+          setShowEnvelope(false);
+        }} />
       )}
 
       {/* Styles globaux */}
