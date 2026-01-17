@@ -9,6 +9,7 @@ import StorySection from './StorySection';
 import CountdownSection from './CountdownSection';
 import RSVPSection from './RSVPSection';
 import MomentOui from './MomentOui';
+import EnvelopeWelcome from './EnvelopeWelcome';
 
 // --- CONFIGURATION ---
 const CONFIG = {
@@ -94,13 +95,13 @@ const HomePage = ({ onNavigate }) => {
   const [scrollY, setScrollY] = useState(0);
   const [isDeadlinePassed, setIsDeadlinePassed] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
-
+  const [showEnvelope, setShowEnvelope] = useState(true);
   useEffect(() => {
     if (!guideDejaAffiche) {
       const timer = setTimeout(() => {
         setShowGuide(true);
         guideDejaAffiche = true;
-      }, 2200);
+      }, 9000);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -137,11 +138,21 @@ const HomePage = ({ onNavigate }) => {
   }, []);
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-stone-50">
-      
+    <div className={`min-h-screen overflow-x-hidden bg-stone-50 ${showEnvelope ? 'h-screen overflow-hidden' : ''}`}>
+
+      {/* insère l'enveloppe tout en haut */}
+      {showEnvelope && (
+        <EnvelopeWelcome onOpen={() => setShowEnvelope(false)} />
+      )}
+
       {/* Styles globaux */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+        /* Cette classe est nécessaire pour l'animation de l'enveloppe */
+        .rotate-x-180 {
+          transform: rotateX(180deg);
+        }
 
         /* Animation pour les petits coeurs flottants */
         @keyframes heartbeat {
@@ -166,10 +177,10 @@ const HomePage = ({ onNavigate }) => {
           transform-origin: center center;
         }
       `}</style>
-
+      
       <FloatingHearts />
       
-      {showGuide && <WelcomeGuide onClose={closeGuide} />}
+      {!showEnvelope && showGuide && <WelcomeGuide onClose={closeGuide} />}
 
       {/* --- HEADER --- */}
       <nav className="bg-white border-b border-stone-100 px-3 py-3 sticky top-0 z-50 flex items-center justify-between shadow-sm">
