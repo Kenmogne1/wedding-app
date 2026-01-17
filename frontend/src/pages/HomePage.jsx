@@ -190,10 +190,8 @@ const HomePage = ({ onNavigate }) => {
       {!showEnvelope && showGuide && <WelcomeGuide onClose={closeGuide} />}
 
       {/* --- HEADER --- */}
-      <nav className="bg-white border-b border-stone-100 px-3 py-3 sticky top-0 z-50 flex items-center justify-between shadow-sm">
-        <div className="text-[#064E3B] pl-1">
-          <AlignJustify size={24} />
-        </div>
+      <nav className="bg-white border-b border-stone-100 px-3 py-3 sticky top-0 z-50 flex items-center justify-end shadow-sm">
+        
         <div className="flex gap-2">
           <button
             onClick={() => document.getElementById('notre-histoire')?.scrollIntoView({ behavior: 'smooth' })}
