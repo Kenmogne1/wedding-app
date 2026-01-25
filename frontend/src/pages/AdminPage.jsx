@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Search, Lock, ArrowLeft } from 'lucide-react';
+import { Search, Lock, ArrowLeft, Download } from 'lucide-react';
+import jsPDF from 'jspdf';              
+import autoTable from 'jspdf-autotable';
 
 // --- CONFIGURATION ---
 const CONFIG = {
@@ -79,6 +81,45 @@ const AdminPage = ({ onNavigate, onGoBack }) => {
   // On assume que ceux qui ont dit "Non" ont nombrePersonnes à 0 dans la base (selon RSVPPage)
   const participatingGuests = allFilteredGuests.filter(g => !g.confirmed || (g.confirmed && g.nombrePersonnes !== 0));
   const notParticipatingGuests = allFilteredGuests.filter(g => g.confirmed && g.nombrePersonnes === 0);
+  
+  // --- FONCTION POUR GÉNÉRER LE PDF 
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+
+    // 1. Titre
+    doc.setFontSize(18);
+    doc.text("Liste des Invités", 14, 20);
+    doc.setFontSize(10);
+    doc.text(`Total : ${stats.confirmed} confirmés`, 14, 28);
+
+    // 2. Colonnes 
+    const tableColumn = ["Nom", "Prénom"];
+    const tableRows = [];
+
+    // 3. Remplissage des données
+    // On filtre pour n'avoir que ceux qui viennent
+    const guestsToPrint = guests.filter(g => g.confirmed && g.nombrePersonnes > 0); 
+    
+    guestsToPrint.forEach((guest) => {
+      const guestData = [
+        guest.nom || "",     // Colonne 1 : Nom
+        guest.prenom || ""   // Colonne 2 : Prénom
+      ];
+      tableRows.push(guestData);
+    });
+
+    // 4. Génération du tableau
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 35,
+      theme: 'grid',
+      headStyles: { fillColor: [22, 101, 52] }, // Vert foncé
+    });
+
+    // 5. Téléchargement
+    doc.save("liste_invites.pdf");
+  };
 
   const handleLogout = () => {
     setAuthenticated(false);
@@ -113,12 +154,24 @@ const AdminPage = ({ onNavigate, onGoBack }) => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-950 to-black py-8 px-4 text-white">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
           <h1 className="text-2xl md:text-4xl font-bold">Contrôle des Entrées</h1>
+
+          <div className="flex gap-3">
+            {/* --- NOUVEAU BOUTON PDF --- */}
+            <button 
+              onClick={downloadPDF}
+              className="bg-[#B59A3A] text-white px-4 py-2 rounded-lg hover:bg-[#947d2f] flex items-center gap-2 shadow-lg transition-all"
+            >
+              <Download size={18} />
+              <span className="hidden md:inline">Liste PDF</span>
+            </button>
+
           <button onClick={handleLogout} className="bg-gray-800 px-4 md:px-6 py-2 rounded-lg hover:bg-gray-700 text-sm md:text-base">
             Déconnexion
           </button>
         </div>
+      </div> 
 
         {/* STATS */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-8">
